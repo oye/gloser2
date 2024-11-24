@@ -1,0 +1,51 @@
+<%= form_with(model: assignment, data: {turbo: true}, class: "form") do |form| %>
+  <% if assignment.errors.any? %>
+    <div class="alert alert-danger">
+      <h4><%= pluralize(assignment.errors.count, "error") %>
+        prohibited this assignment from being saved:</h4>
+
+      <ul>
+        <% assignment.errors.each do |error| %>
+          <li><%= error.full_message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="row">
+    <div class="col">
+      <div class="form-floating">
+        <%= form.text_field :name, class: "form-control", placeholder: "Oppgavenavn", required: true %>
+        <%= form.label :name, "Oppgavenavn" do %>
+          Oppgavenavn
+          <span class='text-danger'>*</span>
+        <% end %>
+      </div>
+    </div>
+  </div>
+  <div id="words">
+    <% assignment.words.each do |word| %>
+      <%= render "word_fields", word: word %>
+    <% end %>
+  </div>
+
+  <div class="d-flex justify-content-end mt-3">
+    <% if @assignment.persisted? %>
+      <%= link_to "Legg til oversettelse",
+      add_word_assignment_path(@assignment),
+      data: {
+        turbo_stream: true,
+      },
+      class: "btn btn-info btn-sm" %>
+    <% else %>
+      <%= link_to "Legg til oversettelse",
+      add_word_new_assignments_path,
+      data: {
+        turbo_stream: true,
+      },
+      class: "btn btn-info btn-sm" %>
+    <% end %>
+  </div>
+
+  <%= form.submit class: "btn btn-primary" %>
+<% end %>

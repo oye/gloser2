@@ -1,0 +1,3 @@
+<%= fields_for 'assignment[words_attributes][]', Word.new do |word_form| %>
+  <%= render "word_fields", f: word_form %>
+<% end %>

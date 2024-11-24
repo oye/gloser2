@@ -1,0 +1,136 @@
+<div class="nested-fields" data-controller="word">
+  <div class="card">
+    <% if word.new_record? %>
+      <button
+        type="button"
+        class="btn-close position-absolute top-0 end-0 p-2 text-danger"
+        data-action="click->word#remove"
+        aria-label="Close"
+      >
+      </button>
+    <% end %>
+    <div class="card-body">
+      <h6 class="card-subtitle mb-2 text-body-secondary">Oversettelse</h6>
+      <%= hidden_field_tag "assignment[words_attributes][#{word.object_id}][id]", word.id %>
+      <div class="row pb-2">
+        <div class="col">
+          <div class="form-floating">
+            <%= text_field_tag "assignment[words_attributes][#{word.object_id}][original_text]",
+            word.original_text,
+            class: "form-control",
+            placeholder: "Original tekst" %>
+            <%= label_tag "assignment_words_attributes_#{word.object_id}_original_text", "Original tekst" do %>
+              Original tekst
+              <span class='text-danger'>*</span>
+            <% end %>
+          </div>
+        </div>
+        <div class="col">
+          <div class="form-floating">
+            <%= text_field_tag "assignment[words_attributes][#{word.object_id}][translated_text]",
+            word.translated_text,
+            class: "form-control",
+            placeholder: "Oversatt tekst" %>
+            <%= label_tag "assignment_words_attributes_#{word.object_id}_translated_text", "Oversatt tekst" do %>
+              Oversatt tekst
+              <span class='text-danger'>*</span>
+            <% end %>
+          </div>
+        </div>
+      </div>
+      <div class="accordion" id="accordion-<%= word.object_id %>">
+        <div class="accordion-item">
+          <h2 class="accordion-header">
+            <button
+              class="accordion-button collapsed"
+              type="button"
+              data-bs-toggle="collapse"
+              data-bs-target="#collapse-<%= word.object_id %>"
+              aria-expanded="true"
+              aria-controls="collapse-<%= word.object_id %>"
+            >
+              Feile oversettelser
+            </button>
+          </h2>
+          <div
+            id="collapse-<%= word.object_id %>"
+            class="accordion-collapse collapse"
+            data-bs-parent="#accordion-<%= word.object_id %>"
+          >
+            <div class="accordion-body">
+              <div class="row pb-2">
+                <div class="col">
+                  <div class="form-floating">
+                    <%= text_field_tag "assignment[words_attributes][#{word.object_id}][original_text_error1]",
+                    word.original_text_error1,
+                    class: "form-control",
+                    placeholder: "Feil original tekst 1" %>
+                    <%= label_tag "assignment_words_attributes_#{word.object_id}_original_text_error1", "Feil original tekst 1" %>
+                  </div>
+                </div>
+                <div class="col">
+                  <div class="form-floating">
+                    <%= text_field_tag "assignment[words_attributes][#{word.object_id}][translated_text_error1]",
+                    word.translated_text_error1,
+                    class: "form-control",
+                    placeholder: "Feil oversatt tekst 1" %>
+                    <%= label_tag "assignment_words_attributes_#{word.object_id}_translated_text_error1", "Feil oversatt tekst 1" %>
+                  </div>
+                </div>
+              </div>
+              <div class="row pb-2">
+                <div class="col">
+                  <div class="form-floating">
+                    <%= text_field_tag "assignment[words_attributes][#{word.object_id}][original_text_error2]",
+                    word.original_text_error2,
+                    class: "form-control",
+                    placeholder: "Feil original tekst 2" %>
+                    <%= label_tag "assignment_words_attributes_#{word.object_id}_original_text_error2", "Feil original tekst 2" %>
+                  </div>
+                </div>
+                <div class="col">
+                  <div class="form-floating">
+                    <%= text_field_tag "assignment[words_attributes][#{word.object_id}][translated_text_error2]",
+                    word.translated_text_error2,
+                    class: "form-control",
+                    placeholder: "Feil oversatt tekst 2" %>
+                    <%= label_tag "assignment_words_attributes_#{word.object_id}_translated_text_error2", "Feil oversatt tekst 2" %>
+                  </div>
+                </div>
+              </div>
+              <div class="row pb-2">
+                <div class="col">
+                  <div class="form-floating">
+                    <%= text_field_tag "assignment[words_attributes][#{word.object_id}][original_text_error3]",
+                    word.original_text_error3,
+                    class: "form-control",
+                    placeholder: "Feil original tekst 3" %>
+                    <%= label_tag "assignment_words_attributes_#{word.object_id}_original_text_error3", "Feil original tekst 3" %>
+                  </div>
+                </div>
+                <div class="col">
+                  <div class="form-floating">
+                    <%= text_field_tag "assignment[words_attributes][#{word.object_id}][translated_text_error3]",
+                    word.translated_text_error3,
+                    class: "form-control",
+                    placeholder: "Feil oversatt tekst 3" %>
+                    <%= label_tag "assignment_words_attributes_#{word.object_id}_translated_text_error3", "Feil oversatt tekst 3" %>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <% if word.persisted? %>
+        <div class="form-group">
+          <div class="form-check">
+            <%= check_box_tag "assignment[words_attributes][#{word.object_id}][_destroy]", "1" %>
+            <label for="assignment_words_attributes_#{word.object_id}__destroy">Slett</label>
+          </div>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div>

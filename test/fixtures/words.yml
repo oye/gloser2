@@ -1,0 +1,23 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  assignment: one
+  original_text: MyString
+  translated_text: MyString
+  wrong_original_text1: MyString
+  wrong_original_text2: MyString
+  wrong_original_text3: MyString
+  wrong_translated_text1: MyString
+  wrong_tanslated_text2: MyString
+  wrong_translated_text2: MyString
+
+two:
+  assignment: two
+  original_text: MyString
+  translated_text: MyString
+  wrong_original_text1: MyString
+  wrong_original_text2: MyString
+  wrong_original_text3: MyString
+  wrong_translated_text1: MyString
+  wrong_tanslated_text2: MyString
+  wrong_translated_text2: MyString

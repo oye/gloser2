@@ -1,0 +1,11 @@
+<div class="px-4 py-5 my-5 text-center">
+  <%= image_tag 'translation.webp', size: '300'%>
+  <h1 class="display-5 fw-bold text-body-emphasis">Gloser</h1>
+  <div class="col-lg-6 mx-auto">
+    <p class="lead mb-4">Dette er en nettside for å øve på gloser, skriv inn oppgavekode nedenfor og trykk 'start', eller opprett en <%= link_to 'ny oppgave her', new_assignment_path , class: 'link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover'%></p>
+    <div class="d-grid gap-2 d-sm-flex justify-content-sm-center">
+      <%= text_field_tag 'code', nil, placeholder: 'Skriv inn oppgavekode...' %>
+      <button type="button" class="btn btn-primary btn-lg px-4 gap-3">Start</button>
+    </div>
+  </div>
+</div>
