@@ -17,7 +17,7 @@
           <div class="form-floating">
             <%= text_field_tag "assignment[words_attributes][#{word.object_id}][original_text]",
             word.original_text,
-            class: "form-control",
+            class: "form-control #{"is-invalid" if word.errors[:original_text].any?}",
             placeholder: "Original tekst" %>
             <%= label_tag "assignment_words_attributes_#{word.object_id}_original_text", "Original tekst" do %>
               Original tekst
@@ -29,7 +29,7 @@
           <div class="form-floating">
             <%= text_field_tag "assignment[words_attributes][#{word.object_id}][translated_text]",
             word.translated_text,
-            class: "form-control",
+            class: "form-control #{"is-invalid" if word.errors[:translated_text].any?}",
             placeholder: "Oversatt tekst" %>
             <%= label_tag "assignment_words_attributes_#{word.object_id}_translated_text", "Oversatt tekst" do %>
               Oversatt tekst
@@ -58,66 +58,28 @@
             data-bs-parent="#accordion-<%= word.object_id %>"
           >
             <div class="accordion-body">
-              <div class="row pb-2">
-                <div class="col">
-                  <div class="form-floating">
-                    <%= text_field_tag "assignment[words_attributes][#{word.object_id}][original_text_error1]",
-                    word.original_text_error1,
-                    class: "form-control",
-                    placeholder: "Feil original tekst 1" %>
-                    <%= label_tag "assignment_words_attributes_#{word.object_id}_original_text_error1", "Feil original tekst 1" %>
+              <% (1..3).each do |n| %>
+                <div class="row pb-2">
+                  <div class="col">
+                    <div class="form-floating">
+                      <%= text_field_tag "assignment[words_attributes][#{word.object_id}][original_text_error#{n}]",
+                      word.send("original_text_error#{n}"),
+                      class: "form-control #{"is-invalid" if word.errors["original_text_error#{n}".to_sym].any?}",
+                      placeholder: "Feil original tekst #{n}" %>
+                      <%= label_tag "assignment_words_attributes_#{word.object_id}_original_text_error#{n}", "Feil original tekst #{n}" %>
+                    </div>
+                  </div>
+                  <div class="col">
+                    <div class="form-floating">
+                      <%= text_field_tag "assignment[words_attributes][#{word.object_id}][translated_text_error#{n}]",
+                      word.send("translated_text_error#{n}"),
+                      class: "form-control #{"is-invalid" if word.errors["translated_text_error#{n}".to_sym].any?}",
+                      placeholder: "Feil oversatt tekst #{n}" %>
+                      <%= label_tag "assignment_words_attributes_#{word.object_id}_translated_text_error#{n}", "Feil oversatt tekst #{n}" %>
+                    </div>
                   </div>
                 </div>
-                <div class="col">
-                  <div class="form-floating">
-                    <%= text_field_tag "assignment[words_attributes][#{word.object_id}][translated_text_error1]",
-                    word.translated_text_error1,
-                    class: "form-control",
-                    placeholder: "Feil oversatt tekst 1" %>
-                    <%= label_tag "assignment_words_attributes_#{word.object_id}_translated_text_error1", "Feil oversatt tekst 1" %>
-                  </div>
-                </div>
-              </div>
-              <div class="row pb-2">
-                <div class="col">
-                  <div class="form-floating">
-                    <%= text_field_tag "assignment[words_attributes][#{word.object_id}][original_text_error2]",
-                    word.original_text_error2,
-                    class: "form-control",
-                    placeholder: "Feil original tekst 2" %>
-                    <%= label_tag "assignment_words_attributes_#{word.object_id}_original_text_error2", "Feil original tekst 2" %>
-                  </div>
-                </div>
-                <div class="col">
-                  <div class="form-floating">
-                    <%= text_field_tag "assignment[words_attributes][#{word.object_id}][translated_text_error2]",
-                    word.translated_text_error2,
-                    class: "form-control",
-                    placeholder: "Feil oversatt tekst 2" %>
-                    <%= label_tag "assignment_words_attributes_#{word.object_id}_translated_text_error2", "Feil oversatt tekst 2" %>
-                  </div>
-                </div>
-              </div>
-              <div class="row pb-2">
-                <div class="col">
-                  <div class="form-floating">
-                    <%= text_field_tag "assignment[words_attributes][#{word.object_id}][original_text_error3]",
-                    word.original_text_error3,
-                    class: "form-control",
-                    placeholder: "Feil original tekst 3" %>
-                    <%= label_tag "assignment_words_attributes_#{word.object_id}_original_text_error3", "Feil original tekst 3" %>
-                  </div>
-                </div>
-                <div class="col">
-                  <div class="form-floating">
-                    <%= text_field_tag "assignment[words_attributes][#{word.object_id}][translated_text_error3]",
-                    word.translated_text_error3,
-                    class: "form-control",
-                    placeholder: "Feil oversatt tekst 3" %>
-                    <%= label_tag "assignment_words_attributes_#{word.object_id}_translated_text_error3", "Feil oversatt tekst 3" %>
-                  </div>
-                </div>
-              </div>
+              <% end %>
             </div>
           </div>
         </div>

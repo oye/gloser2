@@ -24,6 +24,10 @@ class AssignmentsController < ApplicationController
     end
   end
 
+  def summary
+    @assignment = Assignment.find_by(private_task_code: params[:private_task_code])
+  end
+
   # GET /assignments/1/edit
   def edit
   end
@@ -33,7 +37,7 @@ class AssignmentsController < ApplicationController
     @assignment = Assignment.new(assignment_params)
     respond_to do |format|
       if @assignment.save
-        format.html { redirect_to @assignment, notice: "Assignment was successfully created." }
+        format.html { redirect_to assignment_summary_path(@assignment.private_task_code), notice: "Assignment was successfully created." }
         format.json { render :show, status: :created, location: @assignment }
       else
         format.html { render :new, status: :unprocessable_entity }

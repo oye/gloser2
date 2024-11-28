@@ -1,0 +1,39 @@
+<div class="container mt-5">
+  <h1 class="mb-4">Assignment Summary</h1>
+
+  <div class="card">
+    <div class="card-body">
+      <h5 class="card-title"><%= @assignment.name %></h5>
+
+      <div class="row mt-4">
+        <div class="col-md-6">
+          <h6>Public Task Code</h6>
+          <p class="text-primary"><%= @assignment.public_task_code %></p>
+        </div>
+        <div class="col-md-6">
+          <h6>Private Task Code</h6>
+          <p class="text-danger"><%= @assignment.private_task_code %></p>
+        </div>
+      </div>
+
+      <div class="mt-4">
+        <h6>Words</h6>
+        <ul class="list-group">
+          <% @assignment.words.each do |word| %>
+            <li class="list-group-item">
+              <strong>Original:</strong>
+              <%= word.original_text %>
+              |
+              <strong>Translated:</strong>
+              <%= word.translated_text %>
+            </li>
+          <% end %>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="mt-4">
+    <%= link_to "Back to Assignments", assignments_path, class: "btn btn-secondary" %>
+  </div>
+</div>

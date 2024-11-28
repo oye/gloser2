@@ -1,12 +1,10 @@
 <%= form_with(model: assignment, data: {turbo: true}, class: "form") do |form| %>
   <% if assignment.errors.any? %>
     <div class="alert alert-danger">
-      <h4><%= pluralize(assignment.errors.count, "error") %>
-        prohibited this assignment from being saved:</h4>
-
+      <h4><%= t("errors.template.header", model: Assignment.model_name.human, count: assignment.errors.count) %></h4>
       <ul>
         <% assignment.errors.each do |error| %>
-          <li><%= error.full_message %></li>
+          <li><%= "#{assignment.class.human_attribute_name(error.attribute)} #{error.message}" %></li>
         <% end %>
       </ul>
     </div>
@@ -15,7 +13,10 @@
   <div class="row">
     <div class="col">
       <div class="form-floating">
-        <%= form.text_field :name, class: "form-control", placeholder: "Oppgavenavn", required: true %>
+        <%= form.text_field :name,
+                        class: "form-control #{"is-invalid" if assignment.errors[:name].any?}",
+                        placeholder: "Oppgavenavn",
+                        required: true %>
         <%= form.label :name, "Oppgavenavn" do %>
           Oppgavenavn
           <span class='text-danger'>*</span>

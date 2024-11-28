@@ -1,8 +1,10 @@
 Rails.application.routes.draw do
   resources :assignments do
-    get :add_word, on: :member # This creates a route for adding words to existing assignments
-    get :add_word, on: :collection, as: :add_word_new # A route for adding a word to a new assignment
+    get :add_word, on: :member
+    get :add_word, on: :collection, as: :add_word_new
   end
+
+  get "assignments/:private_task_code/summary", to: "assignments#summary", as: "assignment_summary"
 
 
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
