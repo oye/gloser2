@@ -1,5 +1,5 @@
 class AssignmentsController < ApplicationController
-  before_action :set_assignment, only: %i[ show edit update destroy ]
+  before_action :set_assignment, only: %i[ show destroy edit update summary add_word ]
 
   # GET /assignments or /assignments.json
   def index
@@ -16,7 +16,7 @@ class AssignmentsController < ApplicationController
   end
 
   def add_word
-    @assignment = Assignment.find_by(id: params[:assignment_id]) || Assignment.new
+    @assignment = Assignment.new if @assignment.nil?
     @word = @assignment.words.build  # Create a new word associated with the assignment
 
     respond_to do |format|
@@ -25,7 +25,6 @@ class AssignmentsController < ApplicationController
   end
 
   def summary
-    @assignment = Assignment.find_by(private_task_code: params[:private_task_code])
   end
 
   # GET /assignments/1/edit
@@ -37,7 +36,7 @@ class AssignmentsController < ApplicationController
     @assignment = Assignment.new(assignment_params)
     respond_to do |format|
       if @assignment.save
-        format.html { redirect_to assignment_summary_path(@assignment.private_task_code), notice: "Assignment was successfully created." }
+        format.html { redirect_to assignment_summary_path(@assignment.private_task_code), notice: "Oppgave opprettet." }
         format.json { render :show, status: :created, location: @assignment }
       else
         format.html { render :new, status: :unprocessable_entity }
@@ -50,7 +49,7 @@ class AssignmentsController < ApplicationController
   def update
     respond_to do |format|
       if @assignment.update(assignment_params)
-        format.html { redirect_to @assignment, notice: "Assignment was successfully updated." }
+        format.html { redirect_to assignment_summary_path(@assignment.private_task_code), notice: "Oppgave oppdatert." }
         format.json { render :show, status: :ok, location: @assignment }
       else
         format.html { render :edit, status: :unprocessable_entity }
@@ -64,7 +63,7 @@ class AssignmentsController < ApplicationController
     @assignment.destroy!
 
     respond_to do |format|
-      format.html { redirect_to assignments_path, status: :see_other, notice: "Assignment was successfully destroyed." }
+      format.html { redirect_to assignments_path, status: :see_other, notice: "Oppgave slettet." }
       format.json { head :no_content }
     end
   end
@@ -72,7 +71,11 @@ class AssignmentsController < ApplicationController
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_assignment
-      @assignment = Assignment.find(params.expect(:id))
+      @assignment = if params[:private_task_code]
+        Assignment.find_by(private_task_code: params[:private_task_code])
+      else
+        Assignment.find_by(id: params[:id])
+      end
     end
 
     # Only allow a list of trusted parameters through.

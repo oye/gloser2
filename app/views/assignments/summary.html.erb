@@ -1,39 +1,92 @@
 <div class="container mt-5">
-  <h1 class="mb-4">Assignment Summary</h1>
+  <h1 class="display-3 fw-bold text-primary text-center">Oppsummering av oppgave</h1>
 
   <div class="card">
     <div class="card-body">
-      <h5 class="card-title"><%= @assignment.name %></h5>
+      <div class="row mb-4">
+        <div class="col-12 mb-3">
+          <div class="card">
+            <div class="card-header bg-primary text-white">
 
-      <div class="row mt-4">
-        <div class="col-md-6">
-          <h6>Public Task Code</h6>
-          <p class="text-primary"><%= @assignment.public_task_code %></p>
+              <h5 class="mb-0">Navn</h5>
+            </div>
+            <div class="card-body">
+              <p class="card-text">
+                <%= @assignment.name %></p>
+            </div>
+          </div>
         </div>
-        <div class="col-md-6">
-          <h6>Private Task Code</h6>
-          <p class="text-danger"><%= @assignment.private_task_code %></p>
+      </div>
+      <div class="row mb-4">
+        <div class="col-md-6 mb-3">
+          <div class="card h-100 border-info">
+            <div class="card-header bg-info text-white">
+              <h5 class="mb-0">Offentlig oppgavekode</h5>
+            </div>
+            <div class="card-body">
+              <p class="card-text">
+                <span class="code-font"><%= @assignment.public_task_code %></span><br>
+                <%= link_to "LEGG TIL OPPGAVELENKE HER", assignment_summary_path(@assignment.public_task_code) %><br>
+                <small class="text-muted">Dette er den offentlige kode for denne oppgaven. Kopier koden eller lenken til oppgaven for å dele
+                  den med andre,</small>
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-6 mb-3">
+          <div class="card h-100 border-secondary">
+            <div class="card-header bg-secondary text-white">
+              <h5 class="mb-0">Privat oppgavekode</h5>
+            </div>
+            <div class="card-body">
+              <p class="card-text">
+                <span class="code-font"><%= @assignment.private_task_code %></span><br>
+                <%= link_to "Link til denne siden", assignment_summary_path(@assignment.private_task_code) %><br>
+                <small class="text-muted">Dette er din private kode for denne oppgaven. Kopier og lagre lenken til denne siden dersom du
+                  trenger å oppdatere oppgaven ved et senere tidspunkt.</small>
+              </p>
+            </div>
+          </div>
         </div>
       </div>
 
-      <div class="mt-4">
-        <h6>Words</h6>
-        <ul class="list-group">
-          <% @assignment.words.each do |word| %>
-            <li class="list-group-item">
-              <strong>Original:</strong>
-              <%= word.original_text %>
-              |
-              <strong>Translated:</strong>
-              <%= word.translated_text %>
-            </li>
-          <% end %>
-        </ul>
+      <h2>Oversettelser</h2>
+      <div class="accordion" id="wordsAccordion">
+        <% @assignment.words.each_with_index do |word, index| %>
+          <div class="accordion-item">
+            <h2 class="accordion-header" id="heading<%= index %>">
+              <button
+                class="accordion-button"
+                type="button"
+                data-bs-toggle="collapse"
+                data-bs-target="#collapse<%= index %>"
+                aria-expanded="true"
+                aria-controls="collapse<%= index %>"
+              >
+                <%= word.original_text %>
+                -
+                <%= word.translated_text %>
+              </button>
+            </h2>
+            <div
+              id="collapse<%= index %>"
+              class="accordion-collapse collapse show"
+              aria-labelledby="heading<%= index %>"
+              data-bs-parent="#wordsAccordion"
+            >
+              <div class="accordion-body">
+                <%= render "word_details", word: word %>
+              </div>
+            </div>
+          </div>
+        <% end %>
       </div>
+      <%= link_to "Rediger", edit_assignment_path(@assignment.private_task_code), class: "btn btn-primary mt-2" %>
     </div>
   </div>
 
   <div class="mt-4">
-    <%= link_to "Back to Assignments", assignments_path, class: "btn btn-secondary" %>
+    <%= link_to "Hjem", root_path %>
   </div>
 </div>

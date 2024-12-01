@@ -1,10 +1,14 @@
 Rails.application.routes.draw do
-  resources :assignments do
-    get :add_word, on: :member
-    get :add_word, on: :collection, as: :add_word_new
+  resources :assignments, only: [ :index, :new, :create ] do
+      get :add_word, on: :member
+      get :add_word, on: :collection, as: :add_word_new
   end
 
   get "assignments/:private_task_code/summary", to: "assignments#summary", as: "assignment_summary"
+  get "assignments/:private_task_code/edit", to: "assignments#edit", as: "edit_assignment"
+  patch "assignments/:private_task_code", to: "assignments#update", as: "update_assignment"
+  delete "assignments/:private_task_code", to: "assignments#destroy", as: "destroy_assignment"
+  get "assignments/:private_task_code/add_word", to: "assignments#new_word", as: "add_word_using_code"
 
 
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html

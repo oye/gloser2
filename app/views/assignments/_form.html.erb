@@ -1,52 +1,19 @@
-<%= form_with(model: assignment, data: {turbo: true}, class: "form") do |form| %>
-  <% if assignment.errors.any? %>
-    <div class="alert alert-danger">
-      <h4><%= t("errors.template.header", model: Assignment.model_name.human, count: assignment.errors.count) %></h4>
-      <ul>
-        <% assignment.errors.each do |error| %>
-          <li><%= "#{assignment.class.human_attribute_name(error.attribute)} #{error.message}" %></li>
-        <% end %>
-      </ul>
-    </div>
+<% if assignment.errors.any? %>
+  <div class="alert alert-danger">
+    <h4><%= t("errors.template.header", model: Assignment.model_name.human, count: assignment.errors.count) %></h4>
+    <ul>
+      <% assignment.errors.each do |error| %>
+        <li><%= "#{assignment.class.human_attribute_name(error.attribute)} #{error.message}" %></li>
+      <% end %>
+    </ul>
+  </div>
+<% end %>
+<% if assignment.new_record? %>
+  <%= form_with(model: assignment) do |form| %>
+    <%= render "form_fields", form: form, assignment: assignment %>
   <% end %>
-
-  <div class="row">
-    <div class="col">
-      <div class="form-floating">
-        <%= form.text_field :name,
-                        class: "form-control #{"is-invalid" if assignment.errors[:name].any?}",
-                        placeholder: "Oppgavenavn",
-                        required: true %>
-        <%= form.label :name, "Oppgavenavn" do %>
-          Oppgavenavn
-          <span class='text-danger'>*</span>
-        <% end %>
-      </div>
-    </div>
-  </div>
-  <div id="words">
-    <% assignment.words.each do |word| %>
-      <%= render "word_fields", word: word %>
-    <% end %>
-  </div>
-
-  <div class="d-flex justify-content-end mt-3">
-    <% if @assignment.persisted? %>
-      <%= link_to "Legg til oversettelse",
-      add_word_assignment_path(@assignment),
-      data: {
-        turbo_stream: true,
-      },
-      class: "btn btn-info btn-sm" %>
-    <% else %>
-      <%= link_to "Legg til oversettelse",
-      add_word_new_assignments_path,
-      data: {
-        turbo_stream: true,
-      },
-      class: "btn btn-info btn-sm" %>
-    <% end %>
-  </div>
-
-  <%= form.submit class: "btn btn-primary" %>
+<% else %>
+  <%= form_with(model: assignment, url: update_assignment_path(assignment.private_task_code), method: :patch) do |form| %>
+    <%= render "form_fields", form: form, assignment: assignment %>
+  <% end %>
 <% end %>

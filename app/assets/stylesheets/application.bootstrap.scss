@@ -1,2 +1,17 @@
 @import 'bootstrap/scss/bootstrap';
 @import 'bootstrap-icons/font/bootstrap-icons';
+// Custom font imports
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&family=Roboto+Mono&display=swap');
+
+// Custom styles
+body {
+  font-family: 'Roboto', sans-serif;
+}
+
+.code-font {
+  font-family: 'Roboto Mono', monospace;
+  font-size: 0.9em;
+  background-color: $gray-200; // Using Bootstrap's color variable
+  padding: 0.2em 0.4em;
+  border-radius: 3px;
+}
