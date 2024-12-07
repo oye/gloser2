@@ -4,6 +4,7 @@ nb:
     attributes:
       assignment:
         name: Navn
+        words: Oversettelser
       assignment/words:
         original_text: Orginal tekst
         translated_text: Oversatt tekst

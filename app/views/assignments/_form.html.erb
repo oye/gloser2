@@ -8,12 +8,22 @@
     </ul>
   </div>
 <% end %>
-<% if assignment.new_record? %>
-  <%= form_with(model: assignment) do |form| %>
-    <%= render "form_fields", form: form, assignment: assignment %>
-  <% end %>
-<% else %>
-  <%= form_with(model: assignment, url: update_assignment_path(assignment.private_task_code), method: :patch) do |form| %>
-    <%= render "form_fields", form: form, assignment: assignment %>
-  <% end %>
-<% end %>
+<div class="alert alert-info" role="alert">
+  <p>
+    <strong>Feile oversettelser:</strong><br/>
+    Dersom nivå 1 (velge rett oversettelse) skal være tilgjengelig i oppgaven må alle feile oversettelser fylles inn.
+  </p>
+</div>
+<div class="card">
+  <div class="card-body">
+    <% if assignment.new_record? %>
+      <%= form_with(model: assignment) do |form| %>
+        <%= render "form_fields", form: form, assignment: assignment %>
+      <% end %>
+    <% else %>
+      <%= form_with(model: assignment, url: update_assignment_path(assignment.private_task_code), method: :patch) do |form| %>
+        <%= render "form_fields", form: form, assignment: assignment %>
+      <% end %>
+    <% end %>
+  </div>
+</div>

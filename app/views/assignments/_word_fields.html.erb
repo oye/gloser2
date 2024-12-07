@@ -1,4 +1,4 @@
-<div class="nested-fields" data-controller="word">
+<div class="nested-fields mt-1" data-controller="word">
   <div class="card">
     <% if word.new_record? %>
       <button
@@ -38,15 +38,19 @@
           </div>
         </div>
       </div>
-      <div class="accordion" id="accordion-<%= word.object_id %>">
+      <div
+        class="accordion <%= 'd-none' unless wrong_translations %>"
+        id="accordion-<%= word.object_id %>"
+        data-toggle-target="accordion"
+      >
         <div class="accordion-item">
           <h2 class="accordion-header">
             <button
-              class="accordion-button collapsed"
+              class="accordion-button <%= 'collapsed' unless wrong_translations %>"
               type="button"
               data-bs-toggle="collapse"
               data-bs-target="#collapse-<%= word.object_id %>"
-              aria-expanded="true"
+              aria-expanded="<%= wrong_translations %>"
               aria-controls="collapse-<%= word.object_id %>"
             >
               Feile oversettelser
@@ -54,7 +58,7 @@
           </h2>
           <div
             id="collapse-<%= word.object_id %>"
-            class="accordion-collapse collapse"
+            class="accordion-collapse collapse <%= 'show' if wrong_translations %>"
             data-bs-parent="#accordion-<%= word.object_id %>"
           >
             <div class="accordion-body">
@@ -86,7 +90,7 @@
       </div>
 
       <% if word.persisted? %>
-        <div class="form-group">
+        <div class="form-group pt-1">
           <div class="form-check">
             <%= check_box_tag "assignment[words_attributes][#{word.object_id}][_destroy]", "1" %>
             <label for="assignment_words_attributes_#{word.object_id}__destroy">Slett</label>

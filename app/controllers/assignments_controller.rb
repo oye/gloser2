@@ -17,10 +17,10 @@ class AssignmentsController < ApplicationController
 
   def add_word
     @assignment = Assignment.new if @assignment.nil?
-    @word = @assignment.words.build  # Create a new word associated with the assignment
+    @word = @assignment.words.build
 
     respond_to do |format|
-      format.turbo_stream  # Respond with a Turbo Stream to update the words list
+      format.turbo_stream
     end
   end
 
@@ -80,6 +80,6 @@ class AssignmentsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def assignment_params
-      params.expect(assignment: [ :name, words_attributes: [ [ :id, :original_text, :translated_text, :original_text_error1, :original_text_error2, :original_text_error3, :translated_text_error1, :translated_text_error2, :translated_text_error3, :_destroy ] ] ])
+      params.expect(assignment: [ :name, :wrong_translations, words_attributes: [ [ :id, :original_text, :translated_text, :original_text_error1, :original_text_error2, :original_text_error3, :translated_text_error1, :translated_text_error2, :translated_text_error3, :_destroy ] ] ])
     end
 end

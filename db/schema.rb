@@ -10,13 +10,14 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2024_11_21_201432) do
+ActiveRecord::Schema[8.0].define(version: 2024_12_07_135926) do
   create_table "assignments", force: :cascade do |t|
     t.string "public_task_code"
     t.string "private_task_code"
     t.string "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.boolean "wrong_translations"
   end
 
   create_table "words", force: :cascade do |t|

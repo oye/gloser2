@@ -1,12 +1,13 @@
 class Assignment < ApplicationRecord
   has_many :words, dependent: :destroy
   accepts_nested_attributes_for :words, reject_if: :all_blank, allow_destroy: true
+  validates_associated :words
+
   validates :name, presence: true
 
   before_create :generate_codes
 
   private
-
   def generate_codes
     loop do
       self.public_task_code = SecureRandom.alphanumeric(4).downcase

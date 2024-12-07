@@ -1,89 +1,67 @@
 <div class="container mt-5">
   <h1 class="display-3 fw-bold text-primary text-center">Oppsummering av oppgave</h1>
 
-  <div class="card">
+  <div class="card mb-3">
+    <div class="card-header text-center">
+      <strong><%= @assignment.name %></strong>
+    </div>
     <div class="card-body">
-      <div class="row mb-4">
-        <div class="col-12 mb-3">
-          <div class="card">
-            <div class="card-header bg-primary text-white">
+      <dl class="row mb-0">
+        <dt class="col-sm-4">Navn:</dt>
+        <dd class="col-sm-8 pb-2"><div><%= @assignment.name %></div></dd>
 
-              <h5 class="mb-0">Navn</h5>
-            </div>
-            <div class="card-body">
-              <p class="card-text">
-                <%= @assignment.name %></p>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="row mb-4">
-        <div class="col-md-6 mb-3">
-          <div class="card h-100 border-info">
-            <div class="card-header bg-info text-white">
-              <h5 class="mb-0">Offentlig oppgavekode</h5>
-            </div>
-            <div class="card-body">
-              <p class="card-text">
-                <span class="code-font"><%= @assignment.public_task_code %></span><br>
-                <%= link_to "LEGG TIL OPPGAVELENKE HER", assignment_summary_path(@assignment.public_task_code) %><br>
-                <small class="text-muted">Dette er den offentlige kode for denne oppgaven. Kopier koden eller lenken til oppgaven for å dele
-                  den med andre,</small>
-              </p>
-            </div>
-          </div>
-        </div>
+        <dt class="col-sm-4">Offentlig oppgavekode:</dt>
+        <dd class="col-sm-8 pb-2">
+          <div class="code-font"><%= @assignment.public_task_code %></div>
+          <div><%= link_to "LEGG TIL OPPGAVELENKE HER", assignment_summary_path(@assignment.public_task_code) %></div>
+          <div class="text-muted">Dette er den offentlige kode for denne oppgaven. Kopier koden eller lenken til oppgaven for å dele den med
+            andre,</div>
+        </dd>
 
-        <div class="col-md-6 mb-3">
-          <div class="card h-100 border-secondary">
-            <div class="card-header bg-secondary text-white">
-              <h5 class="mb-0">Privat oppgavekode</h5>
-            </div>
-            <div class="card-body">
-              <p class="card-text">
-                <span class="code-font"><%= @assignment.private_task_code %></span><br>
-                <%= link_to "Link til denne siden", assignment_summary_path(@assignment.private_task_code) %><br>
-                <small class="text-muted">Dette er din private kode for denne oppgaven. Kopier og lagre lenken til denne siden dersom du
-                  trenger å oppdatere oppgaven ved et senere tidspunkt.</small>
-              </p>
-            </div>
-          </div>
-        </div>
-      </div>
+        <dt class="col-sm-4">Privat oppgavekode:</dt>
+        <dd class="col-sm-8">
+          <div class="code-font"><%= @assignment.private_task_code %></div>
+          <div><%= link_to "Link til denne siden", assignment_summary_path(@assignment.private_task_code) %></div>
+          <div class="text-muted">Dette er din private kode for denne oppgaven. Kopier og lagre lenken til denne siden dersom du trenger å
+            oppdatere oppgaven ved et senere tidspunkt.</div>
+        </dd>
+      </dl>
 
-      <h2>Oversettelser</h2>
-      <div class="accordion" id="wordsAccordion">
-        <% @assignment.words.each_with_index do |word, index| %>
-          <div class="accordion-item">
-            <h2 class="accordion-header" id="heading<%= index %>">
-              <button
-                class="accordion-button"
-                type="button"
-                data-bs-toggle="collapse"
-                data-bs-target="#collapse<%= index %>"
-                aria-expanded="true"
-                aria-controls="collapse<%= index %>"
-              >
-                <%= word.original_text %>
-                -
-                <%= word.translated_text %>
-              </button>
-            </h2>
-            <div
-              id="collapse<%= index %>"
-              class="accordion-collapse collapse show"
-              aria-labelledby="heading<%= index %>"
-              data-bs-parent="#wordsAccordion"
-            >
-              <div class="accordion-body">
-                <%= render "word_details", word: word %>
-              </div>
-            </div>
-          </div>
-        <% end %>
-      </div>
+      <h5>Oversettelser</h5>
+
+      <table class="table table-bordered">
+        <thead>
+          <tr class="table-primary">
+            <th scope="col">Original tekst</th>
+            <th scope="col">Oversatt tekst</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% @assignment.words.each do |word| %>
+            <tr class="table-success">
+              <td><strong><%= word.original_text %></strong></td>
+              <td><strong><%= word.translated_text %></strong></td>
+            </tr>
+            <% if @assignment.wrong_translations %>
+              <tr class="table-warning">
+                <td><small><%= word.original_text_error1 %></small></td>
+                <td><small><%= word.translated_text_error1 %></small></td>
+              </tr>
+              <tr class="table-warning">
+                <td><small><%= word.original_text_error2 %></small></td>
+                <td><small><%= word.translated_text_error2 %></small></td>
+              </tr>
+              <tr class="table-warning">
+                <td><small><%= word.original_text_error3 %></small></td>
+                <td><small><%= word.translated_text_error3 %></small></td>
+              </tr>
+            <% end %>
+          <% end %>
+        </tbody>
+      </table>
       <%= link_to "Rediger", edit_assignment_path(@assignment.private_task_code), class: "btn btn-primary mt-2" %>
     </div>
+
   </div>
 
   <div class="mt-4">
