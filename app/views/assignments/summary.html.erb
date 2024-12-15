@@ -13,7 +13,7 @@
         <dt class="col-sm-4">Offentlig oppgavekode:</dt>
         <dd class="col-sm-8 pb-2">
           <div class="code-font"><%= @assignment.public_task_code %></div>
-          <div><%= link_to "LEGG TIL OPPGAVELENKE HER", assignment_summary_path(@assignment.public_task_code) %></div>
+          <div><%= link_to "Oppgavelenke", new_run_path(@assignment.public_task_code) %></div>
           <div class="text-muted">Dette er den offentlige kode for denne oppgaven. Kopier koden eller lenken til oppgaven for å dele den med
             andre,</div>
         </dd>

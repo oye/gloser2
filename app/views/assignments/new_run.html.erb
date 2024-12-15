@@ -1,0 +1,49 @@
+<div class="row justify-content-center">
+  <div class="col-auto">
+    <h1 class="display-3 fw-bold text-primary"><%= @assignment.name %></h1>
+  </div>
+</div>
+<%= form_with(url: create_run_path(@assignment.public_task_code), class: "card", data: { controller: "checkbox" }) do |form| %>
+  <div class="card-body">
+    <table class="table table-bordered">
+      <thead>
+        <tr>
+          <th class="px-4 py-2 bg-primary text-white">Original tekst</th>
+          <th class="px-4 py-2 bg-primary text-white">Oversatt tekst</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @assignment.words.each do |word| %>
+          <tr>
+            <td class="bg-primary-subtle border border-white px-4 py-2"><%= word.original_text.capitalize %></td>
+            <td class="bg-primary-subtle border border-white px-4 py-2"><%= word.translated_text.capitalize %></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+    <div class="alert alert-info" role="alert">
+      <p>
+        Velg ønskede nivåer og trykk 'Start'
+      </p>
+    </div>
+    <% ['Nivå 1 - Velg riktig ord', 'Nivå 2 - Skriv riktig ord med hint', 'Nivå 3 - Skriv riktig ord uten hjelp'].each_with_index do |level, i| %>
+      <div class="form-check mb-3">
+        <%= form.check_box :selected_levels,
+                       {
+                         multiple: true,
+                         class: "form-check-input rounded-circle border-0",
+                         checked: @assignment.wrong_translations? || i != 0,
+                         disabled: i == 0 && !@assignment.wrong_translations?,
+                         data: {
+                           action: "change->checkbox#check",
+                           checkbox_target: "option",
+                         },
+                       },
+                       i + 1,
+                       nil %>
+        <%= form.label :selected_levels, level, class: "form-check-label ml-2 text-secondary" %>
+      </div>
+    <% end %>
+    <%= form.submit "Start", class: "btn btn-primary mt-3 py-2 px-4 font-medium", autofocus: true %>
+  </div>
+<% end %>

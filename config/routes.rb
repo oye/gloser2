@@ -9,6 +9,11 @@ Rails.application.routes.draw do
   patch "assignments/:private_task_code", to: "assignments#update", as: "update_assignment"
   delete "assignments/:private_task_code", to: "assignments#destroy", as: "destroy_assignment"
   get "assignments/:private_task_code/add_word", to: "assignments#new_word", as: "add_word_using_code"
+  get "assignments/:public_task_code/new_run", to: "assignments#new_run", as: "new_run"
+  post "assignments/:public_task_code/new_run", to: "assignments#create_run", as: "create_run"
+  get "assignments/:public_task_code/level_one", to: "assignments#level_one", as: "level_one"
+  post "assignments/:public_task_code/level_one", to: "assignments#level_one_answer", as: "level_one_answer"
+  get "assignments/:public_task_code/next_level", to: "assignments#next_level", as: "next_level"
 
 
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
