@@ -23,7 +23,7 @@ class AssignmentsController < ApplicationController
   end
 
   def level_one
-    @current_word = session[:translate_from_original] ? @assignment.words[session[:current_step] - 1].original_text : @assignment.words[session[:current_step] - 1].translated_text
+    @current_word = @assignment.words.find_by(id: session[:current_word_id])
   end
 
   def level_one_answer
@@ -37,14 +37,19 @@ class AssignmentsController < ApplicationController
 
   def next_level
     redirect_to completed_url(@assignment.public_task_code) if session[:selected_levels].empty?
-
     session[:current_step] += 1
     session[:current_level] = session[:selected_levels].delete_at(0)
     session[:available_word_ids] = @assignment.word_ids.shuffle
     session[:current_word_id] = session[:available_word_ids].delete_at(0)
-    session[:translate_from_original] = [ true, false ].sample
+    if [ true, false ].sample
+      session[:from_prefix] = "original"
+      session[:to_prefix] = "translated"
+    else
+      session[:from_prefix] = "translated"
+      session[:to_prefix] = "original"
+    end
     if session[:current_level] == "1"
-      session[:answer_order] = [ 0, 1, 2, 3 ].shuffle
+      session[:answer_order] = [ "#{session[:to_prefix]}_text", "#{session[:to_prefix]}_text_error1", "#{session[:to_prefix]}_text_error2", "#{session[:to_prefix]}_text_error3" ].shuffle
       redirect_to level_one_url(@assignment.public_task_code)
     else
       redirect_to level_others_url(@assignment.public_task_code)

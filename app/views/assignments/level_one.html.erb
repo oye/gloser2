@@ -17,24 +17,18 @@
     </div>
     <div class="row">
       <div class="col">
-        <div class="text-success border-success border bg-success-subtle display-3 mb-4 mx-auto text-center p-3 rounded-lg"><%= @current_word %></div>
+        <div class="text-success border-success border bg-success-subtle display-3 mb-4 mx-auto text-center p-3 rounded-lg"><%= @current_word.send("#{session[:from_prefix]}_text").capitalize %></div>
       </div>
     </div>
     <div class="row">
-      <div class="col-6">
-        <%= button_tag "Button 1", class: "btn btn-primary btn-lg w-100" %>
-      </div>
-      <div class="col-6">
-        <%= button_tag "Button 2", class: "btn btn-primary btn-lg w-100" %>
-      </div>
+      <% [0, 1].each do |i| %>
+        <%= render "option_button", i: i %>
+      <% end %>
     </div>
     <div class="row mt-2">
-      <div class="col-6">
-        <%= button_tag "Button 3", class: "btn btn-primary btn-lg w-100" %>
-      </div>
-      <div class="col-6">
-        <%= button_tag "Button 4", class: "btn btn-primary btn-lg w-100" %>
-      </div>
+      <% [2, 3].each do |i| %>
+        <%= render "option_button", i: i %>
+      <% end %>
     </div>
   </div>
 </div>

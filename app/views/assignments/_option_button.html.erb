@@ -1,0 +1,9 @@
+<div class="col-6">
+  <% answer = @current_word.send("#{session[:answer_order][i]}").capitalize %>
+  <%= button_to answer,
+  level_one_answer_path(@assignment.public_task_code),
+  params: {
+    guess: answer,
+  },
+  class: "btn btn-primary btn-lg w-100" %>
+</div>
