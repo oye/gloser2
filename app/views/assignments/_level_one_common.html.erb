@@ -1,0 +1,48 @@
+<p>Word completed:
+  <%= @word_completed.to_s %></p>
+<div class="row justify-content-center">
+  <div class="col-auto">
+    <h1 class="text-primary">Oppgave:
+      <%= @assignment.name %></h1>
+  </div>
+</div>
+<div class="row justify-content-center">
+  <div class="col-auto">
+    <h3 class="text-info">Nivå 1</h3>
+  </div>
+</div>
+<div class="card mb-3">
+  <div class="card-header text-center"><%= "Oversettelse #{session[:current_step]} / #{session[:total_steps]}" %></div>
+  <div class="card-body">
+    <div class="row">
+      <h5 class="col card-title text-center"><%= @word_completed ? "Velg riktig oversettelse av:" : "" %></h5>
+    </div>
+    <div class="row">
+      <div class="col">
+        <div class="text-success border-success border bg-success-subtle display-3 mb-4 mx-auto text-center p-3 rounded-lg"><%= @current_word.send("#{session[:from_prefix]}_text").capitalize %></div>
+      </div>
+    </div>
+    <div class="row">
+      <% [0, 1].each do |i| %>
+        <%= render "option_button", i: i %>
+      <% end %>
+    </div>
+    <div class="row mt-2">
+      <% [2, 3].each do |i| %>
+        <%= render "option_button", i: i %>
+      <% end %>
+    </div>
+    <% if @word_completed %>
+      <div class="row">
+        <div class="col">
+          <% if @correct_answer %>
+            <p class="text-success">Gratulerer! Det var riktig svar.</p>
+          <% else %>
+            <p class="text-danger">Det var desverre feil svar. Riktig svar var
+              <%= @current_word.send("#{session[:to_prefix]}_text").capitalize %></p>
+          <% end %>
+        </div>
+      </div>
+    <% end %>
+  </div>
+</div>

@@ -19,14 +19,23 @@ class AssignmentsController < ApplicationController
     session[:selected_levels] = params[:selected_levels].sort
     session[:current_step] = 0
     session[:total_steps] = @assignment.words.count * session[:selected_levels].count
+    session[:score] = 0
     redirect_to next_level_url(@assignment.public_task_code)
   end
 
   def level_one
     @current_word = @assignment.words.find_by(id: session[:current_word_id])
+    @word_completed = false
   end
 
   def level_one_answer
+    @current_word = @assignment.words.find_by(id: session[:current_word_id])
+    @word_completed = true
+    @correct_answer = false
+    if correct_guess?(params[:guess], @current_word.send("#{session[:to_prefix]}_text"))
+      session[:score] += 1
+      @correct_answer = true
+    end
   end
 
   def level_others
@@ -127,6 +136,10 @@ class AssignmentsController < ApplicationController
   end
 
   private
+
+    def correct_guess?(guess, answer)
+      guess.gsub(/[^a-zæøå0-9\s]/i, "") == answer.gsub(/[^a-zæøå0-9\s]/i, "")
+    end
     # Use callbacks to share common setup or constraints between actions.
     def set_assignment
       @assignment = if params[:private_task_code]
