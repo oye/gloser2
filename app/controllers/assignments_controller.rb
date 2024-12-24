@@ -1,8 +1,17 @@
 class AssignmentsController < ApplicationController
   before_action :set_assignment, only: %i[ show destroy edit update summary add_word ]
-  before_action :set_assigment_by_public_task_code, only: %i[new_run create_run level_one level_one_answer level_others level_others_answer next_level completed]
+  before_action :set_assigment_by_public_task_code, only: %i[new_run create_run level_one level_one_answer level_others level_others_answer next_level completed next_step]
 
   def new_run
+  end
+
+  def new_run_from_welcome
+    if Assignment.exists?(public_task_code: params[:public_task_code])
+      redirect_to new_run_path(public_task_code: params[:public_task_code])
+    else
+      flash[:warning] = "Ugyldig kode"
+      redirect_to root_path
+    end
   end
 
   def create_run
@@ -14,13 +23,17 @@ class AssignmentsController < ApplicationController
 
     # Need to randomize order of words starting each level
     # Need to randoomize order of possible answers starting each word in level 1
-    # Need to randomize translation order(to/from language) between eache word in all levels.
+    # Need to randomize translation order(to/from language) between each word in all levels.
 
     session[:selected_levels] = params[:selected_levels].sort
     session[:current_step] = 0
     session[:total_steps] = @assignment.words.count * session[:selected_levels].count
     session[:score] = 0
-    redirect_to next_level_url(@assignment.public_task_code)
+    session[:current_level] = nil
+    session[:current_word_id] = nil
+    session[:available_word_ids] = nil
+    proceed_and_redirect
+    # redirect_to proceed_url(@assignment.public_task_code)
   end
 
   def level_one
@@ -32,23 +45,40 @@ class AssignmentsController < ApplicationController
     @current_word = @assignment.words.find_by(id: session[:current_word_id])
     @word_completed = true
     @correct_answer = false
-    if correct_guess?(params[:guess], @current_word.send("#{session[:to_prefix]}_text"))
+    @guess = clean_word(params[:guess])
+    @correct_word = clean_word(@current_word.send("#{session[:to_prefix]}_text"))
+    if @guess == @correct_word
       session[:score] += 1
       @correct_answer = true
     end
+    render :level_one
   end
 
   def level_others
+    @current_word = @assignment.words.find_by(id: session[:current_word_id])
+    @word_completed = false
   end
 
   def level_others_answer
+    @current_word = @assignment.words.find_by(id: session[:current_word_id])
+    @word_completed = true
+    @correct_answer = false
+    @guess = clean_word(params[:guess])
+    @correct_word = clean_word(@current_word.send("#{session[:to_prefix]}_text"))
+    if @guess == @correct_word
+      session[:score] += 1
+      @correct_answer = true
+    end
+    render :level_others
   end
 
   def next_level
-    redirect_to completed_url(@assignment.public_task_code) if session[:selected_levels].empty?
-    session[:current_step] += 1
     session[:current_level] = session[:selected_levels].delete_at(0)
     session[:available_word_ids] = @assignment.word_ids.shuffle
+  end
+
+  def next_word
+    session[:current_step] += 1
     session[:current_word_id] = session[:available_word_ids].delete_at(0)
     if [ true, false ].sample
       session[:from_prefix] = "original"
@@ -56,6 +86,18 @@ class AssignmentsController < ApplicationController
     else
       session[:from_prefix] = "translated"
       session[:to_prefix] = "original"
+    end
+  end
+
+  def next_step
+    proceed_and_redirect
+  end
+  def proceed_and_redirect
+    next_level if session[:available_word_ids].nil? || session[:available_word_ids].empty?
+    next_word
+    if session[:current_level].nil?
+      redirect_to completed_url(@assignment.public_task_code)
+      return
     end
     if session[:current_level] == "1"
       session[:answer_order] = [ "#{session[:to_prefix]}_text", "#{session[:to_prefix]}_text_error1", "#{session[:to_prefix]}_text_error2", "#{session[:to_prefix]}_text_error3" ].shuffle
@@ -137,6 +179,9 @@ class AssignmentsController < ApplicationController
 
   private
 
+    def clean_word(word)
+      word.gsub(/[^a-zæøå0-9\s]/i, "").strip.downcase
+    end
     def correct_guess?(guess, answer)
       guess.gsub(/[^a-zæøå0-9\s]/i, "") == answer.gsub(/[^a-zæøå0-9\s]/i, "")
     end

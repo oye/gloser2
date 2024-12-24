@@ -13,7 +13,11 @@ Rails.application.routes.draw do
   post "assignments/:public_task_code/new_run", to: "assignments#create_run", as: "create_run"
   get "assignments/:public_task_code/level_one", to: "assignments#level_one", as: "level_one"
   post "assignments/:public_task_code/level_one", to: "assignments#level_one_answer", as: "level_one_answer"
-  get "assignments/:public_task_code/next_level", to: "assignments#next_level", as: "next_level"
+  get "assignments/:public_task_code/level_others", to: "assignments#level_others", as: "level_others"
+  post "assignments/:public_task_code/level_others", to: "assignments#level_others_answer", as: "level_others_answer"
+  get "assignments/:public_task_code/next_step", to: "assignments#next_step", as: "next_step"
+  get "assignments/:public_task_code/completed", to: "assignments#completed", as: "completed"
+  post "assignments/new_run_from_welcome", to: "assignments#new_run_from_welcome", as: "new_run_from_welcome"
 
 
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html

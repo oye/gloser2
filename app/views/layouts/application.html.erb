@@ -25,9 +25,9 @@
 
   <body>
     <div class="container">
-      <% if notice %>
-        <div class="alert alert-success alert-dismissible fade show mt-5" role="alert">
-          <%= notice %>
+      <% flash.each do |type, message| %>
+        <div class="alert <%= bootstrap_class_for(type) %> alert-dismissible fade show mt-5" role="alert">
+          <%= message %>
           <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>
       <% end %>

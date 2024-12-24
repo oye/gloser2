@@ -2,6 +2,7 @@ class Assignment < ApplicationRecord
   has_many :words, dependent: :destroy
   accepts_nested_attributes_for :words, reject_if: :all_blank, allow_destroy: true
   validates_associated :words
+  validates_presence_of :words
 
   validates :name, presence: true
 

@@ -1,1 +1,72 @@
-Level 2/3
+<div class="row justify-content-center">
+  <div class="col-auto">
+    <h1 class="text-primary">Oppgave:
+      <%= @assignment.name %></h1>
+  </div>
+</div>
+<div class="row justify-content-center">
+  <div class="col-auto">
+    <h3 class="text-info">Nivå <%= session[:current_level] %></h3>
+  </div>
+</div>
+<div class="card mb-3">
+  <div class="card-header text-center"><%= "Oversettelse #{session[:current_step]} / #{session[:total_steps]}" %></div>
+  <div class="card-body">
+    <div class="row">
+      <h3 class="col card-title text-center"><%= @word_completed ? "" : "Skriv riktig oversettelse av:" %></h3>
+    </div>
+    <div class="row">
+      <div class="col">
+        <div class="text-success border-success border bg-success-subtle display-3 mb-4 mx-auto text-center p-3 rounded-lg"><%= @current_word.send("#{session[:from_prefix]}_text").capitalize %></div>
+      </div>
+    </div>
+    
+    <% if !@word_completed%>
+      <% if session[:current_level] == "2" %>
+        <div class="row">
+          <div class="col text-center">
+            <h4 class="">Bokstavene i løsningen er:</h4>
+            <div class="bg-light text-secondary fs-4 mb-4 mx-auto text-center p-2 rounded">
+              <%= @current_word.send("shuffled_#{session[:to_prefix]}_text").upcase.chars.join("-").gsub("- -", "   ") %>
+            </div>
+          </div>
+        </div>
+      <% end%>
+      <div class="row g-2 justify-content-center">
+        <div class="col-auto">
+        <%= form_with(url: level_others_answer_path(@assignment.public_task_code), data: {turbo: false}) do |f| %>
+          <div class="input-group">
+            <%= f.text_field :guess, class: "form-control form-control-lg", required: true, autocomplete: "off", autofocus: true %>
+            <div class="input-group-append ms-2">
+              <%= f.submit "Svar", class: "btn btn-primary btn-lg" %>
+            </div>
+          </div>
+        <% end%>
+        </div>
+      </div>
+    <% end%>
+    
+    <% if @word_completed %>
+      <div class="row">
+        <div class="col text-center">
+          <h3 class="text-primary">Du svarte <%= @guess.upcase %></h3>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col text-center">
+          <% if @correct_answer %>
+            <h3 class="text-success">Gratulerer! Det var riktig svar.<h3>
+          <% else %>
+            <h3 class="text-danger">Det var desverre feil svar. Riktig svar var
+              <%= @current_word.send("#{session[:to_prefix]}_text").capitalize %></h3>
+          <% end %>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col text-center">
+          <%= link_to "Neste >>", next_step_path(@assignment.public_task_code), class: "btn btn-info btn-lg", autofocus: true %>
+        </div>
+      </div>
+    <% end %>
+  </div>
+</div>

@@ -1,12 +1,28 @@
 <div class="col-6">
   <% answer = @current_word.send("#{session[:answer_order][i]}").capitalize %>
-  <%= button_to answer,
-  level_one_answer_path(@assignment.public_task_code),
-  params: {
-    guess: answer,
-  },
-  data: {
-    turbo: false,
-  },
-  class: "btn btn-primary btn-lg w-100" %>
+  <% if @word_completed %>
+    <% if answer.downcase == @correct_word.downcase %>
+      <div class="btn btn-success btn-lg w-100" aria-disabled="true" style="pointer-events: none;">
+        <%= answer %>
+      </div>  
+    <% elsif answer.downcase == @guess.downcase && !@correct_answer %>
+      <div class="btn btn-danger btn-lg w-100" aria-disabled="true" style="pointer-events: none;">
+        <%= answer %>
+      </div>
+    <% else %>
+      <div class="btn btn-primary btn-lg w-100" aria-disabled="true" style="pointer-events: none;">
+        <%= answer %>
+      </div>
+    <% end %>
+  <% else%>
+    <%= button_to answer,
+    level_one_answer_path(@assignment.public_task_code),
+    params: {
+      guess: answer,
+    },
+    data: {
+      turbo: false,
+    },
+    class: "btn btn-primary btn-lg w-100" %>
+  <% end %>
 </div>
