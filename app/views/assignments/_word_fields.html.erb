@@ -70,7 +70,7 @@
                       word.send("original_text_error#{n}"),
                       class: "form-control #{"is-invalid" if word.errors["original_text_error#{n}".to_sym].any?}",
                       placeholder: "Feil original tekst #{n}" %>
-                      <%= label_tag "assignment_words_attributes_#{word.object_id}_original_text_error#{n}", "Feil original tekst #{n}" %>
+                      <%= label_tag "assignment_words_attributes_#{word.object_id}_original_text_error#{n}", "Feil original tekst #{n}", class: "text-truncate w-100", for: "assignment_words_attributes_#{word.object_id}_original_text_error#{n}" %>
                     </div>
                   </div>
                   <div class="col">
@@ -79,7 +79,7 @@
                       word.send("translated_text_error#{n}"),
                       class: "form-control #{"is-invalid" if word.errors["translated_text_error#{n}".to_sym].any?}",
                       placeholder: "Feil oversatt tekst #{n}" %>
-                      <%= label_tag "assignment_words_attributes_#{word.object_id}_translated_text_error#{n}", "Feil oversatt tekst #{n}" %>
+                      <%= label_tag "assignment_words_attributes_#{word.object_id}_translated_text_error#{n}", "Feil oversatt tekst #{n}", class: "text-truncate w-100", for: "assignment_words_attributes_#{word.object_id}_translated_text_error#{n}" %>
                     </div>
                   </div>
                 </div>
