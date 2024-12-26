@@ -39,7 +39,7 @@
       <div class="d-flex justify-content-end mt-3">
         <% if @assignment.persisted? %>
           <%= link_to "Legg til oversettelse",
-          add_word_assignment_path(@assignment),
+          add_word_path(@assignment.private_task_code),
           data: {
             turbo_stream: true,
             update_links_target: "link",

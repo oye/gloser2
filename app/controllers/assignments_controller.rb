@@ -1,6 +1,6 @@
 class AssignmentsController < ApplicationController
-  before_action :set_assignment, only: %i[ show destroy edit update summary add_word ]
-  before_action :set_assigment_by_public_task_code, only: %i[new_run create_run level_one level_one_answer level_others level_others_answer next_level completed next_step]
+  before_action :set_assignment_by_private_task_code, only: %i[ destroy edit update summary add_word ]
+  before_action :set_assigment_by_public_task_code, only: %i[new_run create_run level_one level_one_answer level_others level_others_answer completed next_step]
 
   def new_run
   end
@@ -15,16 +15,6 @@ class AssignmentsController < ApplicationController
   end
 
   def create_run
-    # SESSION
-    # Store selected levels
-    # Keep track of current level
-    # Keep track of score
-    # Keep track of where we are in the assignment (words solved, words left)
-
-    # Need to randomize order of words starting each level
-    # Need to randoomize order of possible answers starting each word in level 1
-    # Need to randomize translation order(to/from language) between each word in all levels.
-
     session[:selected_levels] = params[:selected_levels].sort
     session[:current_step] = 0
     session[:total_steps] = @assignment.words.count * session[:selected_levels].count
@@ -33,7 +23,6 @@ class AssignmentsController < ApplicationController
     session[:current_word_id] = nil
     session[:available_word_ids] = nil
     proceed_and_redirect
-    # redirect_to proceed_url(@assignment.public_task_code)
   end
 
   def level_one
@@ -42,15 +31,7 @@ class AssignmentsController < ApplicationController
   end
 
   def level_one_answer
-    @current_word = @assignment.words.find_by(id: session[:current_word_id])
-    @word_completed = true
-    @correct_answer = false
-    @guess = clean_word(params[:guess])
-    @correct_word = clean_word(@current_word.send("#{session[:to_prefix]}_text"))
-    if @guess == @correct_word
-      session[:score] += 1
-      @correct_answer = true
-    end
+    process_answer
     render :level_one
   end
 
@@ -60,6 +41,72 @@ class AssignmentsController < ApplicationController
   end
 
   def level_others_answer
+    process_answer
+    render :level_others
+  end
+
+  def next_step
+    proceed_and_redirect
+  end
+
+  def completed
+  end
+
+  def new
+    @assignment = Assignment.new(words: [ Word.new ])
+  end
+
+  def add_word
+    @assignment = Assignment.new if @assignment.nil?
+    @word = @assignment.words.build
+
+    respond_to do |format|
+      format.turbo_stream
+    end
+  end
+
+  def summary
+  end
+
+  def edit
+  end
+
+  def create
+    @assignment = Assignment.new(assignment_params)
+    respond_to do |format|
+      if @assignment.save
+        format.html { redirect_to assignment_summary_path(@assignment.private_task_code), notice: "Oppgave opprettet." }
+        format.json { render :show, status: :created, location: @assignment }
+      else
+        format.html { render :new, status: :unprocessable_entity }
+        format.json { render json: @assignment.errors, status: :unprocessable_entity }
+      end
+    end
+  end
+
+  def update
+    respond_to do |format|
+      if @assignment.update(assignment_params)
+        format.html { redirect_to assignment_summary_path(@assignment.private_task_code), notice: "Oppgave oppdatert." }
+        format.json { render :show, status: :ok, location: @assignment }
+      else
+        format.html { render :edit, status: :unprocessable_entity }
+        format.json { render json: @assignment.errors, status: :unprocessable_entity }
+      end
+    end
+  end
+
+  def destroy
+    @assignment.destroy!
+
+    respond_to do |format|
+      format.html { redirect_to root_path, status: :see_other, notice: "Oppgave slettet." }
+      format.json { head :no_content }
+    end
+  end
+
+  private
+  def process_answer
     @current_word = @assignment.words.find_by(id: session[:current_word_id])
     @word_completed = true
     @correct_answer = false
@@ -69,9 +116,7 @@ class AssignmentsController < ApplicationController
       session[:score] += 1
       @correct_answer = true
     end
-    render :level_others
   end
-
   def next_level
     session[:current_level] = session[:selected_levels].delete_at(0)
     session[:available_word_ids] = @assignment.word_ids.shuffle
@@ -89,9 +134,6 @@ class AssignmentsController < ApplicationController
     end
   end
 
-  def next_step
-    proceed_and_redirect
-  end
   def proceed_and_redirect
     next_level if session[:available_word_ids].nil? || session[:available_word_ids].empty?
     next_word
@@ -106,100 +148,23 @@ class AssignmentsController < ApplicationController
       redirect_to level_others_url(@assignment.public_task_code)
     end
   end
-
-  def completed
+  def clean_word(word)
+    word.gsub(/[^a-zæøå0-9\s]/i, "").strip.downcase
+  end
+  def correct_guess?(guess, answer)
+    guess.gsub(/[^a-zæøå0-9\s]/i, "") == answer.gsub(/[^a-zæøå0-9\s]/i, "")
+  end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_assignment_by_private_task_code
+    @assignment = Assignment.find_by(private_task_code: params[:private_task_code])
   end
 
-  # GET /assignments or /assignments.json
-  def index
-    @assignments = Assignment.all
+  def set_assigment_by_public_task_code
+    @assignment = Assignment.find_by(public_task_code: params[:public_task_code])
   end
 
-  # GET /assignments/1 or /assignments/1.json
-  def show
+  # Only allow a list of trusted parameters through.
+  def assignment_params
+    params.expect(assignment: [ :name, :wrong_translations, words_attributes: [ [ :id, :original_text, :translated_text, :original_text_error1, :original_text_error2, :original_text_error3, :translated_text_error1, :translated_text_error2, :translated_text_error3, :_destroy ] ] ])
   end
-
-  # GET /assignments/new
-  def new
-    @assignment = Assignment.new(words: [ Word.new ])
-  end
-
-  def add_word
-    @assignment = Assignment.new if @assignment.nil?
-    @word = @assignment.words.build
-
-    respond_to do |format|
-      format.turbo_stream
-    end
-  end
-
-  def summary
-  end
-
-  # GET /assignments/1/edit
-  def edit
-  end
-
-  # POST /assignments or /assignments.json
-  def create
-    @assignment = Assignment.new(assignment_params)
-    respond_to do |format|
-      if @assignment.save
-        format.html { redirect_to assignment_summary_path(@assignment.private_task_code), notice: "Oppgave opprettet." }
-        format.json { render :show, status: :created, location: @assignment }
-      else
-        format.html { render :new, status: :unprocessable_entity }
-        format.json { render json: @assignment.errors, status: :unprocessable_entity }
-      end
-    end
-  end
-
-  # PATCH/PUT /assignments/1 or /assignments/1.json
-  def update
-    respond_to do |format|
-      if @assignment.update(assignment_params)
-        format.html { redirect_to assignment_summary_path(@assignment.private_task_code), notice: "Oppgave oppdatert." }
-        format.json { render :show, status: :ok, location: @assignment }
-      else
-        format.html { render :edit, status: :unprocessable_entity }
-        format.json { render json: @assignment.errors, status: :unprocessable_entity }
-      end
-    end
-  end
-
-  # DELETE /assignments/1 or /assignments/1.json
-  def destroy
-    @assignment.destroy!
-
-    respond_to do |format|
-      format.html { redirect_to root_path, status: :see_other, notice: "Oppgave slettet." }
-      format.json { head :no_content }
-    end
-  end
-
-  private
-
-    def clean_word(word)
-      word.gsub(/[^a-zæøå0-9\s]/i, "").strip.downcase
-    end
-    def correct_guess?(guess, answer)
-      guess.gsub(/[^a-zæøå0-9\s]/i, "") == answer.gsub(/[^a-zæøå0-9\s]/i, "")
-    end
-    # Use callbacks to share common setup or constraints between actions.
-    def set_assignment
-      @assignment = if params[:private_task_code]
-        Assignment.find_by(private_task_code: params[:private_task_code])
-      else
-        Assignment.find_by(id: params[:id])
-      end
-    end
-
-    def set_assigment_by_public_task_code
-      @assignment = Assignment.find_by(public_task_code: params[:public_task_code])
-    end
-
-    # Only allow a list of trusted parameters through.
-    def assignment_params
-      params.expect(assignment: [ :name, :wrong_translations, words_attributes: [ [ :id, :original_text, :translated_text, :original_text_error1, :original_text_error2, :original_text_error3, :translated_text_error1, :translated_text_error2, :translated_text_error3, :_destroy ] ] ])
-    end
 end
