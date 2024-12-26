@@ -60,6 +60,7 @@
         </tbody>
       </table>
       <%= link_to "Rediger", edit_assignment_path(@assignment.private_task_code), class: "btn btn-primary mt-2" %>
+      <%= link_to "Slett", destroy_assignment_path(@assignment.private_task_code), class: "btn btn-danger mt-2 float-end", data: {turbo_method: :delete, turbo_confirm: "Er du sikker på at du vil slette denne oppgaven?"} %>
     </div>
 
   </div>

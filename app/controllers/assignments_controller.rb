@@ -172,7 +172,7 @@ class AssignmentsController < ApplicationController
     @assignment.destroy!
 
     respond_to do |format|
-      format.html { redirect_to assignments_path, status: :see_other, notice: "Oppgave slettet." }
+      format.html { redirect_to root_path, status: :see_other, notice: "Oppgave slettet." }
       format.json { head :no_content }
     end
   end
