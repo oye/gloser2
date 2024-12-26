@@ -26,6 +26,11 @@
             oppdatere oppgaven ved et senere tidspunkt.</div>
         </dd>
       </dl>
+      <div class="alert alert-info" role="alert">
+        
+          <strong><small>Automatisk sletting:</small></strong><br/>
+          <small>Oppgaven slettes automatisk en måned etter opprettelsen. Denne oppgaven slettes <%= (@assignment.created_at + 1.month).strftime("%d.%m.%Y") %></small>
+      </div>
 
       <h5>Oversettelser</h5>
 
