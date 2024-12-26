@@ -44,9 +44,19 @@ RUN curl -sL https://github.com/nodenv/node-build/archive/master.tar.gz | tar xz
 
 # Install application gems
 COPY Gemfile Gemfile.lock ./
-RUN bundle install && \
-    rm -rf ~/.bundle/ "${BUNDLE_PATH}"/ruby/*/cache "${BUNDLE_PATH}"/ruby/*/bundler/gems/*/.git && \
-    bundle exec bootsnap precompile --gemfile
+
+# Copy Gemfiles
+COPY Gemfile Gemfile.lock ./
+
+# Install dependencies, including private repositories via access token (then remove bundle cache with exposed GITHUB_TOKEN)
+RUN --mount=type=secret,id=GITHUB_TOKEN \
+  BUNDLE_GITHUB__COM=x-access-token:$(cat /run/secrets/GITHUB_TOKEN) \
+  bundle install && \
+  rm -rf /usr/local/bundle/cache
+
+#RUN bundle install && \
+#    rm -rf ~/.bundle/ "${BUNDLE_PATH}"/ruby/*/cache "${BUNDLE_PATH}"/ruby/*/bundler/gems/*/.git && \
+#    bundle exec bootsnap precompile --gemfile
 
 # Install node modules
 COPY package.json yarn.lock ./
