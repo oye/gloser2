@@ -1,9 +1,11 @@
 # Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
 one:
-  public_task_code: MyString
-  private_task_code: MyString
+  name: one
+  public_task_code: public_task_code1
+  private_task_code: private_task_code1
 
 two:
-  public_task_code: MyString
-  private_task_code: MyString
+  name: two
+  public_task_code: public_task_code2
+  private_task_code: private_task_code2
