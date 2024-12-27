@@ -110,8 +110,8 @@ class AssignmentsController < ApplicationController
     @current_word = @assignment.words.find_by(id: session[:current_word_id])
     @word_completed = true
     @correct_answer = false
-    @guess = clean_word(params[:guess])
-    @correct_word = clean_word(@current_word.send("#{session[:to_prefix]}_text"))
+    @guess = params[:guess].delete(".").strip.downcase
+    @correct_word = @current_word.send("#{session[:to_prefix]}_text").delete(".").strip.downcase
     if @guess == @correct_word
       session[:score] += 1
       @correct_answer = true
