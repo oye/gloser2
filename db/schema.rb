@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2024_12_07_135926) do
+ActiveRecord::Schema[8.0].define(version: 2024_12_27_164753) do
   create_table "assignments", force: :cascade do |t|
     t.string "public_task_code"
     t.string "private_task_code"
@@ -18,6 +18,8 @@ ActiveRecord::Schema[8.0].define(version: 2024_12_07_135926) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.boolean "wrong_translations"
+    t.string "original_language"
+    t.string "translated_language"
   end
 
   create_table "words", force: :cascade do |t|

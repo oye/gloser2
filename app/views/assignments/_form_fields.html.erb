@@ -6,8 +6,8 @@
                         class: "form-control #{"is-invalid" if assignment.errors[:name].any?}",
                         placeholder: "Oppgavenavn",
                         required: true %>
-        <%= form.label :name, "Oppgavenavn" do %>
-          Oppgavenavn
+        <%= form.label :name, "Lag oppgavenavn" do %>
+          Lag oppgavenavn
           <span class='text-danger'>*</span>
         <% end %>
       </div>
@@ -24,7 +24,25 @@
                        } %>
         <%= form.label :wrong_translations, "Feile oversettelser", class: "form-check-label" %>
         <div class="form-text">Velg denne dersom du ønsker å legge inn feile oversettelser. Uten dette vil ikke nivå 1 (velge rett
-          oversettelse) være tilgjengelig for dem som skal gjøre oppgaven.</div>
+          ord) være tilgjengelig for de som skal gjøre oppgaven.</div>
+      </div>
+    </div>
+  </div>
+  <div class="row mb-3">
+    <div class="col">
+      <div class="form-floating">
+        <%= form.text_field :original_language,
+                        class: "form-control",
+                        placeholder: "Originalt språk (f.eks. Norsk)" %>
+        <%= form.label :original_language, "Originalt språk (f.eks. Norsk)" %>
+      </div>
+    </div>
+    <div class="col">
+      <div class="form-floating">
+        <%= form.text_field :translated_language,
+                        class: "form-control",
+                        placeholder: "Oversatt språk (f.eks. Engelsk)" %>
+        <%= form.label :translated_language, "Oversatt språk (f.eks. Engelsk)" %>
       </div>
     </div>
   </div>

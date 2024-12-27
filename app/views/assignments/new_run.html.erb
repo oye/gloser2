@@ -8,8 +8,8 @@
     <table class="table table-bordered">
       <thead>
         <tr>
-          <th class="px-4 py-2 bg-primary text-white">Original tekst</th>
-          <th class="px-4 py-2 bg-primary text-white">Oversatt tekst</th>
+          <th class="px-4 py-2 bg-primary text-white"><%= @assignment.original_language.present? ? @assignment.original_language : "Originalt språk" %></th>
+          <th class="px-4 py-2 bg-primary text-white"><%= @assignment.translated_language.present? ? @assignment.translated_language : "Oversatt språk" %></th>
         </tr>
       </thead>
       <tbody>

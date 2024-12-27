@@ -37,8 +37,8 @@
       <table class="table table-bordered">
         <thead>
           <tr class="table-primary">
-            <th scope="col">Original tekst</th>
-            <th scope="col">Oversatt tekst</th>
+            <th scope="col"><%= @assignment.original_language.present? ? @assignment.original_language : "Originalt språk" %></th>
+            <th scope="col"><%= @assignment.translated_language.present? ? @assignment.translated_language : "Oversatt språk" %></th>
           </tr>
         </thead>
         <tbody>
