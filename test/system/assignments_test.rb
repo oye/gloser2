@@ -5,39 +5,43 @@ class AssignmentsTest < ApplicationSystemTestCase
     @assignment = assignments(:one)
   end
 
-  test "visiting the index" do
-    visit assignments_url
-    assert_selector "h1", text: "Assignments"
+  test "visiting the root" do
+    visit root_url
+    assert_selector "h1", text: "Gloser"
+  end
+  test "visiting the summary page" do
+    visit assignment_summary_url(@assignment.private_task_code)
+    assert_selector "h1", text: "Oppsummering av oppgave"
   end
 
   test "should create assignment" do
-    visit assignments_url
-    click_on "New assignment"
+    visit root_url
+    click_on "ny oppgave her"
 
-    fill_in "Private task code", with: @assignment.private_task_code
-    fill_in "Public task code", with: @assignment.public_task_code
-    click_on "Create Assignment"
+    fill_in "Oppgavenavn", with: @assignment.name
+    fill_in "Original tekst", with: @assignment.words.first.original_text
+    fill_in "Oversatt tekst", with: @assignment.words.first.translated_text
+    click_on "Lag Oppgave"
 
-    assert_text "Assignment was successfully created"
-    click_on "Back"
+    assert_text "Oppgave opprettet."
   end
 
   test "should update Assignment" do
-    visit assignment_url(@assignment)
-    click_on "Edit this assignment", match: :first
+    visit edit_assignment_url(@assignment.private_task_code)
 
-    fill_in "Private task code", with: @assignment.private_task_code
-    fill_in "Public task code", with: @assignment.public_task_code
-    click_on "Update Assignment"
+    fill_in "Oppgavenavn", with: @assignment.private_task_code
+    click_on "Oppdater Oppgave"
 
-    assert_text "Assignment was successfully updated"
-    click_on "Back"
+    assert_text "Oppgave oppdatert."
   end
 
   test "should destroy Assignment" do
-    visit assignment_url(@assignment)
-    click_on "Destroy this assignment", match: :first
+    visit assignment_summary_url(@assignment.private_task_code)
+    accept_confirm do
+      click_on "Slett"
+    end
 
-    assert_text "Assignment was successfully destroyed"
+    assert_text "Oppgave slettet."
+    assert_current_path root_path
   end
 end
