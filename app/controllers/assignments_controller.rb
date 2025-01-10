@@ -6,8 +6,8 @@ class AssignmentsController < ApplicationController
   end
 
   def new_run_from_welcome
-    if Assignment.exists?(public_task_code: params[:public_task_code])
-      redirect_to new_run_path(public_task_code: params[:public_task_code])
+    if Assignment.exists?(public_task_code: params[:public_task_code].downcase)
+      redirect_to new_run_path(public_task_code: params[:public_task_code].downcase)
     else
       flash[:warning] = "Ugyldig kode"
       redirect_to root_path
