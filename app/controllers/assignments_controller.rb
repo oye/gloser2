@@ -66,6 +66,8 @@ class AssignmentsController < ApplicationController
   end
 
   def summary
+    qr_code = RQRCode::QRCode.new(new_run_url(@assignment.public_task_code)).as_png
+    @image_data = Base64.strict_encode64(qr_code.to_blob)
   end
 
   def edit

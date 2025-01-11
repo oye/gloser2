@@ -13,23 +13,28 @@
         <dt class="col-sm-4">Offentlig oppgavekode:</dt>
         <dd class="col-sm-8 pb-2">
           <div class="code-font"><%= @assignment.public_task_code %></div>
+
           <div><%= link_to "Oppgavelenke", new_run_path(@assignment.public_task_code) %></div>
-          <div class="text-muted">Dette er den offentlige kode for denne oppgaven. Kopier koden eller lenken til oppgaven for å dele den med
-            andre,</div>
+
+          <div class="text-muted">Dette er den offentlige kode for denne oppgaven. Kopier koden, QR-koden, eller lenken til oppgaven for å
+            dele den med andre,</div>
+          <div><img src="data:image/png;base64,<%= @image_data %>" alt="QR-kode"></div>
         </dd>
 
         <dt class="col-sm-4">Privat oppgavekode:</dt>
         <dd class="col-sm-8">
           <div class="code-font"><%= @assignment.private_task_code %></div>
           <div><%= link_to "Link til denne siden", assignment_summary_path(@assignment.private_task_code) %></div>
+
           <div class="text-muted">Dette er din private kode for denne oppgaven. Kopier og lagre lenken til denne siden dersom du trenger å
             oppdatere oppgaven ved et senere tidspunkt.</div>
         </dd>
       </dl>
       <div class="alert alert-info" role="alert">
-        
-          <strong><small>Automatisk sletting:</small></strong><br/>
-          <small>Oppgaven slettes automatisk en måned etter opprettelsen. Denne oppgaven slettes <%= (@assignment.created_at + 1.month).strftime("%d.%m.%Y") %></small>
+
+        <strong><small>Automatisk sletting:</small></strong><br/>
+        <small>Oppgaven slettes automatisk en måned etter opprettelsen. Denne oppgaven slettes
+          <%= (@assignment.created_at + 1.month).strftime("%d.%m.%Y") %></small>
       </div>
 
       <h5>Oversettelser</h5>
@@ -65,7 +70,13 @@
         </tbody>
       </table>
       <%= link_to "Rediger", edit_assignment_path(@assignment.private_task_code), class: "btn btn-primary mt-2" %>
-      <%= link_to "Slett", destroy_assignment_path(@assignment.private_task_code), class: "btn btn-danger mt-2 float-end", data: {turbo_method: :delete, turbo_confirm: "Er du sikker på at du vil slette denne oppgaven?"} %>
+      <%= link_to "Slett",
+      destroy_assignment_path(@assignment.private_task_code),
+      class: "btn btn-danger mt-2 float-end",
+      data: {
+        turbo_method: :delete,
+        turbo_confirm: "Er du sikker på at du vil slette denne oppgaven?",
+      } %>
     </div>
 
   </div>
