@@ -1,24 +1,32 @@
-# README
+# Gloser 2
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+## Description
+Web application written in Ruby on Rails to create assignment to practice tranlation of words and phrases. An assignment can contain any number of translations. A pulic code(url) to the assignment can be shared by the creator for others that want to do the assignment. 
 
-Things you may want to cover:
+There are three levels for an assignment.
+  - Level 1 - Select the correct translation
+  - Level 2 - Write the correct translation with the solution scrambled.
+  - Level 3 - Write the correct translation.
 
-* Ruby version
+For level 1 to be available when doing the assignment, 3 wrong translations have to be entered for each translation. These will be used as the wrong option when selecting the correct translation.
 
-* System dependencies
+Live site: https://gloser.guttvik.no
 
-* Configuration
+## Ruby version
+- 3.4.1
 
-* Database creation
+## Rails version
+- 8.0.1
 
-* Database initialization
+## Database initialization
+- Run `rails db:create` to create the database.
+- Run `rails db:migrate` to run migrations.
 
-* How to run the test suite
+## How to run the test suite
+- Run `rails test` to run the test suite.
 
-* Services (job queues, cache servers, search engines, etc.)
+## Scheduled jobs
+- Daily job configured in config/reccuring.yml to delete assignments older than one month.
 
-* Deployment instructions
-
-* ...
+## License
+- This project is licensed under the MIT License.
