@@ -22,6 +22,7 @@
     <%= javascript_importmap_tags %>
     <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
     <%= Sentry.get_trace_propagation_meta.html_safe %>
+    <script src="https://js-de.sentry-cdn.com/55ae0d5e81a88fb765151e990c0b6617.min.js" crossorigin="anonymous"></script>
   </head>
 
   <body>
