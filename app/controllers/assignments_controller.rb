@@ -26,6 +26,9 @@ class AssignmentsController < ApplicationController
   end
 
   def level_one
+    if session[:current_word_id].blank?
+      redirect_to new_run_path(public_task_code: params[:public_task_code].downcase)
+    end
     @current_word = @assignment.words.find_by(id: session[:current_word_id])
     @word_completed = false
   end
@@ -36,6 +39,9 @@ class AssignmentsController < ApplicationController
   end
 
   def level_others
+    if session[:current_word_id].blank?
+      redirect_to new_run_path(public_task_code: params[:public_task_code].downcase)
+    end
     @current_word = @assignment.words.find_by(id: session[:current_word_id])
     @word_completed = false
   end
