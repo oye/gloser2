@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2024_12_27_164753) do
+ActiveRecord::Schema[8.0].define(version: 2025_03_12_174715) do
   create_table "assignments", force: :cascade do |t|
     t.string "public_task_code"
     t.string "private_task_code"
