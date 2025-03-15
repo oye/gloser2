@@ -13,7 +13,7 @@
   <div class="card-header text-center"><%= "Oversettelse #{session[:current_step]} / #{session[:total_steps]}" %></div>
   <div class="card-body">
     <div class="row">
-      <h5 class="col card-title text-center"><%= @word_completed ? "" : "Velg riktig oversettelse av:" %></h5>
+      <h5 class="col card-title text-center"><%= @word_completed ? "" : "Velg riktig #{session[:to_language].present? ? session[:to_language].downcase : ""} oversettelse av:" %></h5>
     </div>
     <div class="row">
       <div class="col">

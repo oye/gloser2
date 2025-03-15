@@ -3,15 +3,14 @@ class AssignmentsController < ApplicationController
   before_action :set_assigment_by_public_task_code, only: %i[new_run create_run level_one level_one_answer level_others level_others_answer completed next_step]
 
   def new_run
-  end
-
-  def new_run_from_welcome
-    if Assignment.exists?(public_task_code: params[:public_task_code].downcase)
-      redirect_to new_run_path(public_task_code: params[:public_task_code].downcase)
-    else
+    if !Assignment.exists?(public_task_code: params[:public_task_code].downcase)
       flash[:warning] = "Ugyldig kode"
       redirect_to root_path
     end
+  end
+
+  def new_run_from_welcome
+    redirect_to new_run_path(public_task_code: params[:public_task_code].downcase)
   end
 
   def create_run
@@ -130,7 +129,7 @@ class AssignmentsController < ApplicationController
     session[:available_word_ids] = @assignment.word_ids.shuffle
   end
 
-  def next_word
+  def next_word(assignment)
     session[:current_step] += 1
     session[:current_word_id] = session[:available_word_ids].delete_at(0)
     if [ true, false ].sample
@@ -140,11 +139,17 @@ class AssignmentsController < ApplicationController
       session[:from_prefix] = "translated"
       session[:to_prefix] = "original"
     end
+    session[:from_language] = nil
+    session[:to_language] = nil
+    if assignment.original_language.present? && assignment.translated_language.present?
+      session[:from_language] = assignment.send("#{session[:from_prefix]}_language")
+      session[:to_language] = assignment.send("#{session[:to_prefix]}_language")
+    end
   end
 
   def proceed_and_redirect
     next_level if session[:available_word_ids].nil? || session[:available_word_ids].empty?
-    next_word
+    next_word(@assignment)
     if session[:current_level].nil?
       redirect_to completed_url(@assignment.public_task_code)
       return
