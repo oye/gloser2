@@ -7,7 +7,7 @@ class AssignmentsTest < ApplicationSystemTestCase
 
   test "visiting the root" do
     visit root_url
-    assert_selector "h1", text: "Gloser"
+    assert_selector "h1", text: "Oversettelser"
   end
   test "visiting the summary page" do
     visit assignment_summary_url(@assignment.private_task_code)
@@ -19,11 +19,11 @@ class AssignmentsTest < ApplicationSystemTestCase
     click_on "ny oppgave her"
 
     fill_in "Oppgavenavn", with: @assignment.name
-    fill_in "Original tekst", with: @assignment.words.first.original_text
-    fill_in "Oversatt tekst", with: @assignment.words.first.translated_text
+    fill_in "Orginal tekst (f.eks. Hund)", with: @assignment.words.first.original_text
+    fill_in "Oversatt tekst (f.eks. Dog)", with: @assignment.words.first.translated_text
     click_on "Lag Oppgave"
 
-    assert_text "Oppgave opprettet."
+    assert_text "Oppgave opprettet"
   end
 
   test "should update Assignment" do
@@ -32,7 +32,7 @@ class AssignmentsTest < ApplicationSystemTestCase
     fill_in "Oppgavenavn", with: @assignment.private_task_code
     click_on "Oppdater Oppgave"
 
-    assert_text "Oppgave oppdatert."
+    assert_text "Oppgave oppdatert"
   end
 
   test "should destroy Assignment" do
@@ -41,7 +41,7 @@ class AssignmentsTest < ApplicationSystemTestCase
       click_on "Slett"
     end
 
-    assert_text "Oppgave slettet."
-    assert_current_path root_path
+    assert_text "Oppgave slettet"
+    assert_current_path root_path(locale: I18n.locale)
   end
 end
