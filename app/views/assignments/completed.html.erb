@@ -2,11 +2,11 @@
 <div class="row justify-content-center">
   <div class="col-auto">
     <% if precentage > 90 %>
-      <h2 class="text-primary">Fantastisk innsats!</h2>
+      <h2 class="text-primary"><%= t(:great_effort) %></h2>
     <% elsif precentage > 50 %>
-      <h2 class="text-primary">Bra innsats!</h2>
+      <h2 class="text-primary"><%= t(:good_effort) %></h2>
     <% else %>
-      <h2 class="text-primary">Bra innsats, men du kan gjerne prøve igjen.</h2>
+      <h2 class="text-primary"><%= t(:good_effort_try_again) %></h2>
     <% end %>
   </div>
 </div>
@@ -21,16 +21,16 @@
 </div>
 <div class="row justify-content-center">
   <div class="col-auto">
-    <h3 class="text-primary">Du fikk <%= session[:score] %> av <%= session[:total_steps] %> riktig</h3>
+    <h3 class="text-primary"><%= t(:total_score, score: session[:score], max_score: session[:total_steps]) %></h3>
   </div>
 </div>
 <div class="row justify-content-center">
   <div class="col-auto">
-    <%= link_to "Start oppgaven på nytt", new_run_path(@assignment.public_task_code), class: "btn btn-primary btn-lg" %>
+    <%= link_to t(:restart_assignment), new_run_path(@assignment.public_task_code), class: "btn btn-primary btn-lg" %>
   </div>
 </div>
 <div class="row justify-content-center">
   <div class="col-auto">
-    <%= link_to "Hjem", root_path %>
+    <%= link_to t(:home), root_path %>
   </div>
 </div>

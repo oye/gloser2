@@ -1,5 +1,5 @@
 <div class="container mt-5">
-  <h1 class="display-3 fw-bold text-primary text-center">Oppsummering av oppgave</h1>
+  <h1 class="display-3 fw-bold text-primary text-center"><%= t(:assignment_summary) %></h1>
 
   <div class="card mb-3">
     <div class="card-header text-center">
@@ -7,43 +7,41 @@
     </div>
     <div class="card-body">
       <dl class="row mb-0">
-        <dt class="col-sm-4">Navn:</dt>
+        <dt class="col-sm-4"><%= t(:name) %>:</dt>
         <dd class="col-sm-8 pb-2"><div><%= @assignment.name %></div></dd>
 
-        <dt class="col-sm-4">Offentlig oppgavekode:</dt>
+        <dt class="col-sm-4"><%= t(:public_assignment_code) %>:</dt>
         <dd class="col-sm-8 pb-2">
           <div class="code-font"><%= @assignment.public_task_code %></div>
 
-          <div><%= link_to "Oppgavelenke", new_run_path(@assignment.public_task_code) %></div>
+          <div><%= link_to t(:assignment_link), new_run_path(@assignment.public_task_code) %></div>
 
-          <div class="text-muted">Dette er den offentlige kode for denne oppgaven. Kopier koden, QR-koden, eller lenken til oppgaven for å
-            dele den med andre,</div>
+          <div class="text-muted"><%= t(:public_assignment_code_explanation) %></div>
           <div><img src="data:image/png;base64,<%= @image_data %>" alt="QR-kode"></div>
         </dd>
 
-        <dt class="col-sm-4">Privat oppgavekode:</dt>
+        <dt class="col-sm-4"><%= t(:private_assignment_code) %>:</dt>
         <dd class="col-sm-8">
           <div class="code-font"><%= @assignment.private_task_code %></div>
-          <div><%= link_to "Link til denne siden", assignment_summary_path(@assignment.private_task_code) %></div>
+          <div><%= link_to t(:link_to_this_page), assignment_summary_path(@assignment.private_task_code) %></div>
 
-          <div class="text-muted">Dette er din private kode for denne oppgaven. Kopier og lagre lenken til denne siden dersom du trenger å
-            oppdatere oppgaven ved et senere tidspunkt.</div>
+          <div class="text-muted"><%= t(:private_assignment_code_explanation) %></div>
         </dd>
       </dl>
       <div class="alert alert-info" role="alert">
 
-        <strong><small>Automatisk sletting:</small></strong><br/>
-        <small>Oppgaven slettes automatisk en måned etter opprettelsen. Denne oppgaven slettes
-          <%= (@assignment.created_at + 1.month).strftime("%d.%m.%Y") %></small>
+        <strong><small><%= t(:automatic_removal) %>:</small></strong><br/>
+        <small><%= t(:automatic_removal_explanation) %>
+          <%= I18n.l((@assignment.created_at + 1.month).to_date) %></small>
       </div>
 
-      <h5>Oversettelser</h5>
+      <h5><%= t(:translations) %></h5>
 
       <table class="table table-bordered">
         <thead>
           <tr class="table-primary">
-            <th scope="col"><%= @assignment.original_language.present? ? @assignment.original_language : "Originalt språk" %></th>
-            <th scope="col"><%= @assignment.translated_language.present? ? @assignment.translated_language : "Oversatt språk" %></th>
+            <th scope="col"><%= @assignment.original_language.present? ? @assignment.original_language : t(:original_language) %></th>
+            <th scope="col"><%= @assignment.translated_language.present? ? @assignment.translated_language : t(:translated_language) %></th>
           </tr>
         </thead>
         <tbody>
@@ -69,19 +67,19 @@
           <% end %>
         </tbody>
       </table>
-      <%= link_to "Rediger", edit_assignment_path(@assignment.private_task_code), class: "btn btn-primary mt-2" %>
-      <%= link_to "Slett",
+      <%= link_to t(:edit), edit_assignment_path(@assignment.private_task_code), class: "btn btn-primary mt-2" %>
+      <%= link_to t(:delete),
       destroy_assignment_path(@assignment.private_task_code),
       class: "btn btn-danger mt-2 float-end",
       data: {
         turbo_method: :delete,
-        turbo_confirm: "Er du sikker på at du vil slette denne oppgaven?",
+        turbo_confirm: t(:confirm_delete),
       } %>
     </div>
 
   </div>
 
   <div class="mt-4">
-    <%= link_to "Hjem", root_path %>
+    <%= link_to t(:home), root_path %>
   </div>
 </div>

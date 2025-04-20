@@ -27,12 +27,19 @@
 
   <body>
     <div class="container">
+      <% opposite_locale = I18n.locale == :en ? :nb : :en %>
+      <% opposite_locale_name = I18n.t("locales.#{opposite_locale}", locale: opposite_locale) %>
+      <ul class="nav justify-content-end mt-3">
+        <li class="nav-item"><%= link_to(opposite_locale_name, { locale: opposite_locale }, class: "btn btn-sm btn-outline-secondary") %></li>
+      </ul>
+
       <% flash.each do |type, message| %>
-        <div class="alert <%= bootstrap_class_for(type) %> alert-dismissible fade show mt-5" role="alert">
+        <div class="alert <%= bootstrap_class_for(type) %> alert-dismissible fade show mt-2" role="alert">
           <%= message %>
           <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>
       <% end %>
+
       <%= yield %>
     </div>
   </body>

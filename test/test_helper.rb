@@ -11,5 +11,9 @@ module ActiveSupport
     fixtures :all
 
     # Add more helper methods to be used by all tests here...
+    I18n.locale = :nb
+    def default_url_options
+      { locale: I18n.locale }
+    end
   end
 end

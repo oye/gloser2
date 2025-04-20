@@ -29,3 +29,91 @@
 
 en:
   hello: "Hello world"
+  translations: Translations
+  welcome_text: This is a website for practicing translations. Type in the task code below and click 'start', or create a
+  new_assignment_here: new assignment here
+  enter_assignment_code: Enter assignment code...
+  invalid_code: Invalid code
+  new_assignment: New Assignment
+  edit_assignnment: Edit assignment
+  assignment_name: Assignment name
+  wrong_translations: Wrong translations
+  wrong_translations_explanation: Select this if you want to enter wrong translations. Without this, level 1 (select the correct translation) will not be available for those doing the assignment.
+  original_language: Original language
+  translated_language: Translated language
+  original_language_with_example: Originalt language (e.g. English)
+  translated_language_with_example: Translated language (e.g. Norwegian)
+  add_translation: Add translation
+  home: Home
+  translation: Translation
+  translation_label: Translation (word/expression)
+  original_text: Orginal text (e.g. Dog)
+  translated_text: Translated text (e.g. Hund)
+  wrong_original_text1: "Wrong orginal text 1 (e.g. Cat)" 
+  wrong_original_text2: "Wrong orginal text 2 (e.g. Cow)"
+  wrong_original_text3: "Wrong orginal text 3 (e.g. Dogg)"
+  wrong_translated_text1: "Wrong translated text 1 (e.g. Katt)"
+  wrong_translated_text2: "Wrong translated text 2 (e.g. Ku)"
+  wrong_translated_text3: "Wrong translated text 3 (e.g. Hun)"
+  assignment_created: Assignment created
+  assignment_updated: Assignment updated
+  assignment_deleted: Assignment deleted
+  assignment_summary: Assignment summary
+  name: Name
+  public_assignment_code: Public assignment code
+  private_assignment_code: Private assignment code
+  assignment_link: Assignment link
+  public_assignment_code_explanation: This is the public code for this assignment. Copy the code, QR code, or link to the assignment to share it with others.
+  private_assignment_code: Private assignment code
+  link_to_this_page: Link to this page
+  private_assignment_code_explanation: This is your private code for this assignment. Copy and save the link to this page if you need to update the assignment later.
+  automatic_removal: Automatic removal
+  automatic_removal_explanation: The assignment will be automatically removed one month after creation, this assignment will be removed on
+  translations: Translations
+  edit: Edit
+  delete: Delete
+  confirm_delete: Are you sure you want to delete this assignment?
+  new_run_info: Select desired levels and click 'Start'
+  level_one_text: Level 1 - Select the correct translation
+  level_two_text: Level 2 - Write the correct translation with hint
+  level_three_text: Level 3 - Write the correct translation without hint
+  level_one: Level 1
+  level_two: Level 2
+  level_three: Level 3
+  level_one_info: "Select the correct %{to_language} translation of: "
+  level_others_info: "Write the correct %{to_language} translation of: "
+  correct_answer: Congratulations! That was the correct answer
+  wrong_answer: "Unfortunately that was not the correct answer. The correct answer was "
+  next_step: Next step >>
+  solution_letters: "The letters in the solution are: "
+  you_anwered: You answered
+  answer: Answer
+  great_effort: Great effort!
+  good_effort: Good effort!
+  good_effort_try_again: Good effort, but you might want to try again.
+  total_score: "You got %{score} of %{max_score} correct"
+  restart_assignment: Restart assignment
+  locales:
+    en: English
+    nb: Norwegian
+  activerecord:
+    attributes:
+      assignment:
+        name: Name
+        words: Translations
+      assignment/words:
+        original_text: Original text
+        translated_text: Translated text
+        original_text_error1: Wrong original text 1
+        original_text_error2: Wrong original text 2
+        original_text_error3: Wrong original text 3
+        translated_text_error1: Wrong translated text 1 
+        translated_text_error2: Wrong translated text 2
+        translated_text_error3: Wrong translated text 3
+    models:
+      assignment:
+        one: Assignment
+        other: Assignments
+      word:
+        one: Translation
+        other: Translations

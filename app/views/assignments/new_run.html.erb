@@ -8,8 +8,8 @@
     <table class="table table-bordered">
       <thead>
         <tr>
-          <th class="px-4 py-2 bg-primary text-white"><%= @assignment.original_language.present? ? @assignment.original_language : "Originalt språk" %></th>
-          <th class="px-4 py-2 bg-primary text-white"><%= @assignment.translated_language.present? ? @assignment.translated_language : "Oversatt språk" %></th>
+          <th class="px-4 py-2 bg-primary text-white"><%= @assignment.original_language.present? ? @assignment.original_language : t(:original_language) %></th>
+          <th class="px-4 py-2 bg-primary text-white"><%= @assignment.translated_language.present? ? @assignment.translated_language : t(:translated_language) %></th>
         </tr>
       </thead>
       <tbody>
@@ -23,10 +23,10 @@
     </table>
     <div class="alert alert-info" role="alert">
       <p>
-        Velg ønskede nivåer og trykk 'Start'
+        <%= t(:new_run_info) %>
       </p>
     </div>
-    <% ['Nivå 1 - Velg riktig ord', 'Nivå 2 - Skriv riktig ord med hint', 'Nivå 3 - Skriv riktig ord uten hjelp'].each_with_index do |level, i| %>
+    <% [t(:level_one_text), t(:level_two_text), t(:level_three_text)].each_with_index do |level, i| %>
       <div class="form-check mb-3">
         <%= form.check_box :selected_levels,
                        {
@@ -48,5 +48,5 @@
   </div>
 <% end %>
 <div>
-  <%= link_to "Hjem", root_path %>
+  <%= link_to t(:home), root_path %>
 </div>

@@ -1,23 +1,24 @@
 Rails.application.routes.draw do
-  resources :assignments, only: [ :new, :create ] do
-      get :add_word, on: :collection, as: :add_word_new
+  scope "/(:locale)" do
+    resources :assignments, only: [ :new, :create ] do
+        get :add_word, on: :collection, as: :add_word_new
+    end
+
+    get "assignments/:private_task_code/summary", to: "assignments#summary", as: "assignment_summary"
+    get "assignments/:private_task_code/edit", to: "assignments#edit", as: "edit_assignment"
+    patch "assignments/:private_task_code", to: "assignments#update", as: "update_assignment"
+    delete "assignments/:private_task_code", to: "assignments#destroy", as: "destroy_assignment"
+    get "assignments/:private_task_code/add_word", to: "assignments#add_word", as: "add_word"
+    get "assignments/:public_task_code/new_run", to: "assignments#new_run", as: "new_run"
+    post "assignments/:public_task_code/new_run", to: "assignments#create_run", as: "create_run"
+    get "assignments/:public_task_code/level_one", to: "assignments#level_one", as: "level_one"
+    post "assignments/:public_task_code/level_one", to: "assignments#level_one_answer", as: "level_one_answer"
+    get "assignments/:public_task_code/level_others", to: "assignments#level_others", as: "level_others"
+    post "assignments/:public_task_code/level_others", to: "assignments#level_others_answer", as: "level_others_answer"
+    get "assignments/:public_task_code/next_step", to: "assignments#next_step", as: "next_step"
+    get "assignments/:public_task_code/completed", to: "assignments#completed", as: "completed"
+    post "assignments/new_run_from_welcome", to: "assignments#new_run_from_welcome", as: "new_run_from_welcome"
   end
-
-  get "assignments/:private_task_code/summary", to: "assignments#summary", as: "assignment_summary"
-  get "assignments/:private_task_code/edit", to: "assignments#edit", as: "edit_assignment"
-  patch "assignments/:private_task_code", to: "assignments#update", as: "update_assignment"
-  delete "assignments/:private_task_code", to: "assignments#destroy", as: "destroy_assignment"
-  get "assignments/:private_task_code/add_word", to: "assignments#add_word", as: "add_word"
-  get "assignments/:public_task_code/new_run", to: "assignments#new_run", as: "new_run"
-  post "assignments/:public_task_code/new_run", to: "assignments#create_run", as: "create_run"
-  get "assignments/:public_task_code/level_one", to: "assignments#level_one", as: "level_one"
-  post "assignments/:public_task_code/level_one", to: "assignments#level_one_answer", as: "level_one_answer"
-  get "assignments/:public_task_code/level_others", to: "assignments#level_others", as: "level_others"
-  post "assignments/:public_task_code/level_others", to: "assignments#level_others_answer", as: "level_others_answer"
-  get "assignments/:public_task_code/next_step", to: "assignments#next_step", as: "next_step"
-  get "assignments/:public_task_code/completed", to: "assignments#completed", as: "completed"
-  post "assignments/new_run_from_welcome", to: "assignments#new_run_from_welcome", as: "new_run_from_welcome"
-
 
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 

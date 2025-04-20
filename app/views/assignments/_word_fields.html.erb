@@ -10,7 +10,7 @@
       </button>
     <% end %>
     <div class="card-body">
-      <h6 class="card-subtitle mb-2 text-body-secondary">Oversettelse (ord/utrykk)</h6>
+      <h6 class="card-subtitle mb-2 text-body-secondary"><%= t(:translation_label) %></h6>
       <%= hidden_field_tag "assignment[words_attributes][#{word.object_id}][id]", word.id %>
       <div class="row pb-2">
         <div class="col">
@@ -18,9 +18,9 @@
             <%= text_field_tag "assignment[words_attributes][#{word.object_id}][original_text]",
             word.original_text,
             class: "form-control #{"is-invalid" if word.errors[:original_text].any?}",
-            placeholder: "Original tekst" %>
-            <%= label_tag "assignment_words_attributes_#{word.object_id}_original_text", "Original tekst" do %>
-              Original tekst
+            placeholder: t(:original_text) %>
+            <%= label_tag "assignment_words_attributes_#{word.object_id}_original_text", t(:original_text), class: "text-truncate w-100" do %>
+              <%= t(:original_text) %>
               <span class='text-danger'>*</span>
             <% end %>
           </div>
@@ -30,9 +30,9 @@
             <%= text_field_tag "assignment[words_attributes][#{word.object_id}][translated_text]",
             word.translated_text,
             class: "form-control #{"is-invalid" if word.errors[:translated_text].any?}",
-            placeholder: "Oversatt tekst" %>
-            <%= label_tag "assignment_words_attributes_#{word.object_id}_translated_text", "Oversatt tekst" do %>
-              Oversatt tekst
+            placeholder: t(:translated_text) %>
+            <%= label_tag "assignment_words_attributes_#{word.object_id}_translated_text", t(:translated_text), class: "text-truncate w-100" do %>
+              <%= t(:translated_text) %>
               <span class='text-danger'>*</span>
             <% end %>
           </div>
@@ -53,7 +53,7 @@
               aria-expanded="<%= wrong_translations %>"
               aria-controls="collapse-<%= word.object_id %>"
             >
-              Feile oversettelser
+              <%= t(:wrong_translations) %>
             </button>
           </h2>
           <div
@@ -70,7 +70,10 @@
                       word.send("original_text_error#{n}"),
                       class: "form-control #{"is-invalid" if word.errors["original_text_error#{n}".to_sym].any?}",
                       placeholder: "Feil original tekst #{n}" %>
-                      <%= label_tag "assignment_words_attributes_#{word.object_id}_original_text_error#{n}", "Feil original tekst #{n}", class: "text-truncate w-100", for: "assignment_words_attributes_#{word.object_id}_original_text_error#{n}" %>
+                      <%= label_tag "assignment_words_attributes_#{word.object_id}_original_text_error#{n}",
+                      "#{t("wrong_original_text#{n}")}",
+                      class: "text-truncate w-100",
+                      for: "assignment_words_attributes_#{word.object_id}_original_text_error#{n}" %>
                     </div>
                   </div>
                   <div class="col">
@@ -79,7 +82,10 @@
                       word.send("translated_text_error#{n}"),
                       class: "form-control #{"is-invalid" if word.errors["translated_text_error#{n}".to_sym].any?}",
                       placeholder: "Feil oversatt tekst #{n}" %>
-                      <%= label_tag "assignment_words_attributes_#{word.object_id}_translated_text_error#{n}", "Feil oversatt tekst #{n}", class: "text-truncate w-100", for: "assignment_words_attributes_#{word.object_id}_translated_text_error#{n}" %>
+                      <%= label_tag "assignment_words_attributes_#{word.object_id}_translated_text_error#{n}",
+                      "#{t("wrong_translated_text#{n}")}",
+                      class: "text-truncate w-100",
+                      for: "assignment_words_attributes_#{word.object_id}_translated_text_error#{n}" %>
                     </div>
                   </div>
                 </div>

@@ -1,5 +1,75 @@
 ---
 nb:
+  translations: Gloser
+  welcome_text: Dette er en nettside for å øve på gloser. Skriv inn oppgavekode nedenfor og trykk 'start', eller opprett en
+  new_assignment_here: ny oppgave her
+  enter_assignment_code: Skriv inn oppgavekode...
+  invalid_code: Ugyldig kode
+  new_assignment: Ny oppgave
+  edit_assignnment: Rediger oppgave
+  home: Hjem
+  assignment_name: Oppgavenavn
+  wrong_translations: Feile oversettelser
+  wrong_translations_explanation: Velg denne dersom du ønsker å legge inn feile oversettelser. Uten dette vil ikke nivå 1 (velge rett oversettelse) være
+          tilgjengelig for de som skal gjøre oppgaven.
+  original_language: Originalt språk
+  translated_language: Oversatt språk
+  original_language_with_example: Originalt språk (f.eks. Norsk)
+  translated_language_with_example: Oversatt språk (f.eks. Engelsk)
+  add_translation: Legg til oversettelse
+  translation: Oversettelse
+  translation_label: Oversettelse (ord/utrykk)
+  original_text: Orginal tekst (f.eks. Hund)
+  translated_text: Oversatt tekst (f.eks. Dog)
+  wrong_original_text1: "Feil orginal tekst 1 (f.eks Katt)" 
+  wrong_original_text2: "Feil orginal tekst 2 (f.eks Ku)"
+  wrong_original_text3: "Feil orginal tekst 3 (f.eks Hun)"
+  wrong_translated_text1: "Feil oversatt tekst 1 (f.eks Cat)"
+  wrong_translated_text2: "Feil oversatt tekst 2 (f.eks Cow)"
+  wrong_translated_text3: "Feil oversatt tekst 3 (f.eks Dogg)"
+  assignment_created: Oppgave opprettet
+  assignment_updated: Oppgave oppdatert
+  assignment_deleted: Oppgave slettet
+  assignment_summary: Oppsummering av oppgave
+  name: Navn
+  public_assignment_code: Offentlig oppgavekode
+  private_assignment_code: Privat oppgavekode
+  assignment_link: Oppgavelenke
+  public_assignment_code_explanation: Dette er den offentlige kode for denne oppgaven. Kopier koden, QR-koden, eller lenken til oppgaven for å
+            dele den med andre.
+  private_assignment_code: Privat oppgavekode
+  link_to_this_page: Link til denne siden
+  private_assignment_code_explanation: Dette er din private kode for denne oppgaven. Kopier og lagre lenken til denne siden dersom du trenger å
+            oppdatere oppgaven ved et senere tidspunkt.
+  automatic_removal: Automatisk sletting
+  automatic_removal_explanation: Oppgaven slettes automatisk en måned etter opprettelsen. Denne oppgaven slettes
+  translations: Oversettelser
+  edit: Rediger
+  delete: Slett
+  confirm_delete: Er du sikker på at du vil slette denne oppgaven?
+  new_run_info: Velg ønskede nivåer og trykk 'Start'
+  level_one_text: Nivå 1 - Velg riktig ord
+  level_two_text: Nivå 2 - Skriv riktig ord med hint
+  level_three_text: Nivå 3 - Skriv riktig ord uten hint
+  level_one: Nivå 1
+  level_two: Nivå 2
+  level_three: Nivå 3
+  level_one_info: "Velg riktig %{to_language} oversettelse av: "
+  level_others_info: "Skriv riktig %{to_language} oversettelse av: "
+  correct_answer: Gratulerer! Det var riktig svar
+  wrong_answer: "Det var desverre feil svar. Riktig svar var "
+  next_step: Neste >>
+  solution_letters: "Bokstavene i løsningen er: "
+  you_anwered: Du svarte
+  answer: Svar
+  great_effort: Fantastisk innsats!
+  good_effort: Bra innsats!
+  good_effort_try_again: Bra innsats, men du kan gjerne prøve igjen.
+  total_score: "Du fikk %{score} av %{max_score} riktig"
+  restart_assignment: Start oppgaven på nytt
+  locales:
+    en: Engelsk
+    nb: Norsk
   activerecord:
     attributes:
       assignment:
@@ -19,8 +89,8 @@ nb:
         one: Oppgave
         other: Oppgaver
       word:
-        one: Ord
-        other: Ord
+        one: Oversettelse
+        other: Oversettelser
         
     errors:
       messages:

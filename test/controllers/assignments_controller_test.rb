@@ -15,7 +15,7 @@ class AssignmentsControllerTest < ActionDispatch::IntegrationTest
       post assignments_url, params: { assignment: { name: "New assignment", wrong_translations: "0", words_attributes: [ { original_text: "Original text", translated_text: "Translated text" } ] } }
     end
 
-    assert_redirected_to assignment_summary_path(Assignment.last.private_task_code)
+    assert_redirected_to assignment_summary_url(Assignment.last.private_task_code, locale: I18n.locale)
   end
 
   test "should show assignment summary" do
@@ -30,15 +30,15 @@ class AssignmentsControllerTest < ActionDispatch::IntegrationTest
 
   test "should update assignment" do
     patch update_assignment_url(@assignment.private_task_code), params: { assignment: { name: "Updated assignment", wrong_translations: "0", words_attributes: [ { original_text: "New Original text", translated_text: "New Translated text" } ] } }
-    assert_redirected_to assignment_summary_path(Assignment.last.private_task_code)
+    assert_redirected_to assignment_summary_path(Assignment.last.private_task_code, locale: I18n.locale)
   end
 
   test "should destroy assignment" do
     assert_difference("Assignment.count", -1) do
-      delete destroy_assignment_url(@assignment.private_task_code)
+      delete destroy_assignment_url(@assignment.private_task_code, locale: I18n.locale)
     end
 
-    assert_redirected_to root_url
+    assert_redirected_to root_url(locale: I18n.locale)
   end
 
   test "should create run from welcome" do
@@ -48,7 +48,7 @@ class AssignmentsControllerTest < ActionDispatch::IntegrationTest
 
   test "should create run" do
     post create_run_url(@assignment.public_task_code), params: { selected_levels: [ "1", "2", "3" ] }
-    assert_redirected_to level_one_url(@assignment.public_task_code)
+    assert_redirected_to level_one_url(@assignment.public_task_code, locale: I18n.locale)
   end
 
   test "should get level one" do
@@ -79,7 +79,7 @@ class AssignmentsControllerTest < ActionDispatch::IntegrationTest
     post create_run_url(@assignment.public_task_code), params: { selected_levels: [ "1" ] }
     post level_one_answer_url(@assignment.public_task_code), params: { guess: "some guess" }
     get next_step_url(@assignment.public_task_code)
-    assert_redirected_to completed_url(@assignment.public_task_code)
+    assert_redirected_to completed_url(@assignment.public_task_code, locale: I18n.locale)
   end
 
   test "should add word" do

@@ -4,7 +4,7 @@ class AssignmentsController < ApplicationController
 
   def new_run
     if !Assignment.exists?(public_task_code: params[:public_task_code].downcase)
-      flash[:warning] = "Ugyldig kode"
+      flash[:warning] = t(:invalid_code)
       redirect_to root_path
     end
   end
@@ -82,9 +82,12 @@ class AssignmentsController < ApplicationController
     @assignment = Assignment.new(assignment_params)
     respond_to do |format|
       if @assignment.save
-        format.html { redirect_to assignment_summary_path(@assignment.private_task_code), notice: "Oppgave opprettet." }
+        format.html { redirect_to assignment_summary_path(@assignment.private_task_code), notice: t(:assignment_created) }
         format.json { render :show, status: :created, location: @assignment }
       else
+        if @assignment.words.empty?
+          @assignment.words = [ Word.new ]
+        end
         format.html { render :new, status: :unprocessable_entity }
         format.json { render json: @assignment.errors, status: :unprocessable_entity }
       end
@@ -94,7 +97,7 @@ class AssignmentsController < ApplicationController
   def update
     respond_to do |format|
       if @assignment.update(assignment_params)
-        format.html { redirect_to assignment_summary_path(@assignment.private_task_code), notice: "Oppgave oppdatert." }
+        format.html { redirect_to assignment_summary_path(@assignment.private_task_code), notice: t(:assignment_updated) }
         format.json { render :show, status: :ok, location: @assignment }
       else
         format.html { render :edit, status: :unprocessable_entity }
@@ -107,7 +110,7 @@ class AssignmentsController < ApplicationController
     @assignment.destroy!
 
     respond_to do |format|
-      format.html { redirect_to root_path, status: :see_other, notice: "Oppgave slettet." }
+      format.html { redirect_to root_path, status: :see_other, notice: t(:assignment_deleted) }
       format.json { head :no_content }
     end
   end
@@ -161,12 +164,7 @@ class AssignmentsController < ApplicationController
       redirect_to level_others_url(@assignment.public_task_code)
     end
   end
-  def clean_word(word)
-    word.gsub(/[^a-zæøå0-9\s]/i, "").strip.downcase
-  end
-  def correct_guess?(guess, answer)
-    guess.gsub(/[^a-zæøå0-9\s]/i, "") == answer.gsub(/[^a-zæøå0-9\s]/i, "")
-  end
+
   # Use callbacks to share common setup or constraints between actions.
   def set_assignment_by_private_task_code
     @assignment = Assignment.find_by(private_task_code: params[:private_task_code])

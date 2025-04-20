@@ -1,15 +1,36 @@
 <div data-controller="update-turbo-links toggle">
-  <div class="row">
+  <div class="row mb-1">
     <div class="col">
       <div class="form-floating">
         <%= form.text_field :name,
                         class: "form-control #{"is-invalid" if assignment.errors[:name].any?}",
-                        placeholder: "Oppgavenavn",
+                        placeholder: t(:assignment_name),
                         required: true %>
-        <%= form.label :name, "Lag oppgavenavn" do %>
-          Lag oppgavenavn
+        <%= form.label :name, t(:assignment_name) do %>
+          <%= t(:assignment_name) %>
           <span class='text-danger'>*</span>
         <% end %>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col">
+      <div class="form-floating">
+        <%= form.text_field :original_language, class: "form-control", placeholder: t(:original_language) %>
+        <%= form.label :original_language,
+                   t(:original_language_with_example),
+                   class: "text-truncate w-100",
+                   for: "assignment_original_language" %>
+      </div>
+    </div>
+    <div class="col">
+      <div class="form-floating">
+        <%= form.text_field :translated_language, class: "form-control", placeholder: t(:translated_language) %>
+        <%= form.label :translated_language,
+                   t(:translated_language_with_example),
+                   class: "text-truncate w-100",
+                   for: "assignment_translated_language" %>
       </div>
     </div>
   </div>
@@ -22,29 +43,8 @@
                          action: "change->toggle#toggle change->update-turbo-links#updateLinks",
                          update_turbo_links_target: "checkbox",
                        } %>
-        <%= form.label :wrong_translations, "Feile oversettelser", class: "form-check-label" %>
-        <div class="form-text">Velg denne dersom du ønsker å legge inn feile oversettelser. Uten dette vil ikke nivå 1 (velge rett ord) være
-          tilgjengelig for de som skal gjøre oppgaven.</div>
-      </div>
-    </div>
-  </div>
-  <div class="row mb-3">
-    <div class="col">
-      <div class="form-floating">
-        <%= form.text_field :original_language, class: "form-control", placeholder: "Originalt språk (f.eks. Norsk)" %>
-        <%= form.label :original_language,
-                   "Originalt språk (f.eks. Norsk)",
-                   class: "text-truncate w-100",
-                   for: "assignment_original_language" %>
-      </div>
-    </div>
-    <div class="col">
-      <div class="form-floating">
-        <%= form.text_field :translated_language, class: "form-control", placeholder: "Oversatt språk (f.eks. Engelsk)" %>
-        <%= form.label :translated_language,
-                   "Oversatt språk (f.eks. Engelsk)",
-                   class: "text-truncate w-100",
-                   for: "assignment_translated_language" %>
+        <%= form.label :wrong_translations, t(:wrong_translations), class: "form-check-label" %>
+        <div class="form-text"><%= t(:wrong_translations_explanation) %></div>
       </div>
     </div>
   </div>
@@ -58,7 +58,7 @@
 
       <div class="d-flex justify-content-end mt-3">
         <% if @assignment.persisted? %>
-          <%= link_to "Legg til oversettelse",
+          <%= link_to t(:add_translation),
           add_word_path(@assignment.private_task_code),
           data: {
             turbo_stream: true,
@@ -66,7 +66,7 @@
           },
           class: "btn btn-info btn-sm add-word-link" %>
         <% else %>
-          <%= link_to "Legg til oversettelse",
+          <%= link_to t(:add_translation),
           add_word_new_assignments_path,
           data: {
             turbo_stream: true,
