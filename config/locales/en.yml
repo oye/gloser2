@@ -93,6 +93,7 @@ en:
   good_effort_try_again: Good effort, but you might want to try again.
   total_score: "You got %{score} of %{max_score} correct"
   restart_assignment: Restart assignment
+  assignment_not_found: Assignment not found
   locales:
     en: English
     nb: Norwegian

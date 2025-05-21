@@ -67,6 +67,7 @@ nb:
   good_effort_try_again: Bra innsats, men du kan gjerne prøve igjen.
   total_score: "Du fikk %{score} av %{max_score} riktig"
   restart_assignment: Start oppgaven på nytt
+  assignment_not_found: Oppgaven finnes ikke
   locales:
     en: Engelsk
     nb: Norsk
