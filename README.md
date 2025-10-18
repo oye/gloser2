@@ -16,7 +16,7 @@ Live site: https://gloser.guttvik.no
 - 3.4.1
 
 ## Rails version
-- 8.0.1
+- 8.0.3
 
 ## Database initialization
 - Run `rails db:create` to create the database.
